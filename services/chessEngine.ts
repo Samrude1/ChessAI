@@ -121,3 +121,12 @@ export const findBestMove = (game: Chess): Promise<Move | null> => {
         stockfishWorker.postMessage('go movetime 1000'); // 1 second per move
     });
 };
+
+export const setSkillLevel = (level: number) => {
+    if (!stockfishWorker) {
+        stockfishWorker = createStockfishWorker();
+    }
+
+    // Stockfish skill level: 0 (weakest) to 20 (strongest)
+    stockfishWorker.postMessage(`setoption name Skill Level value ${level}`);
+};

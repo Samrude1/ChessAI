@@ -6,7 +6,7 @@ import AICommentary from './components/AICommentary';
 import MoveHistory from './components/MoveHistory';
 import CapturedPieces from './components/CapturedPieces';
 import GameStartModal from './components/GameStartModal';
-import { findBestMove } from './services/chessEngine';
+import { findBestMove, setSkillLevel } from './services/chessEngine';
 import { getAiCommentary } from './services/geminiService';
 import { soundEngine } from './services/soundService';
 import type { Commentary, Mood } from './types';
@@ -69,8 +69,9 @@ const App: React.FC = () => {
         return 'neutral';
     };
 
-    const startGame = (color: 'w' | 'b') => {
+    const startGame = (color: 'w' | 'b', skillLevel: number) => {
         soundEngine.playGameStart();
+        setSkillLevel(skillLevel); // Set Stockfish difficulty
         const newGame = new Chess();
         setGame(newGame);
         setPlayerColor(color);
@@ -135,6 +136,7 @@ const App: React.FC = () => {
         if (gameRef.current.isGameOver()) return;
         if (gameRef.current.turn() === playerColor) return;
         if (isBotThinking) return; // Prevent multiple simultaneous requests
+        if (isCommentaryLoading) return; // Wait for YesMan to finish commenting
 
         setIsBotThinking(true);
         try {
@@ -177,7 +179,7 @@ const App: React.FC = () => {
             setIsBotThinking(false);
             setStatus("ERROR: AI NEURAL LINK SEVERED. REBOOT REQUIRED.");
         }
-    }, [updateStatus, fetchCommentary, playerColor, isBotThinking]);
+    }, [updateStatus, fetchCommentary, playerColor, isBotThinking, isCommentaryLoading]);
 
     const handlePlayerMove = (move: any): boolean => {
         if (gameOver || !playerColor) return false;
@@ -311,13 +313,30 @@ const App: React.FC = () => {
                     </div>
 
                     <div className="hidden lg:block terminal-border p-4 text-center bg-black shrink-0">
-                        <p className="text-theme font-bold tracking-widest animate-pulse text-xl">{status}</p>
-                        <button
-                            onClick={() => setPlayerColor(null)}
-                            className="mt-4 text-lg text-theme hover:text-white hover:underline decoration-dashed uppercase font-bold"
-                        >
-                            [ ABORT SIMULATION ]
-                        </button>
+                        <p className="text-theme font-bold tracking-widest animate-pulse text-2xl">{status}</p>
+                        <div className="flex flex-col gap-2 mt-4">
+                            <button
+                                onClick={() => {
+                                    const pgn = game.pgn();
+                                    const blob = new Blob([pgn], { type: 'text/plain' });
+                                    const url = URL.createObjectURL(blob);
+                                    const a = document.createElement('a');
+                                    a.href = url;
+                                    a.download = `chess-game-${Date.now()}.pgn`;
+                                    a.click();
+                                    URL.revokeObjectURL(url);
+                                }}
+                                className="text-lg text-theme hover:text-white hover:underline decoration-dashed uppercase font-bold"
+                            >
+                                [ DOWNLOAD PGN ]
+                            </button>
+                            <button
+                                onClick={() => setPlayerColor(null)}
+                                className="text-xl text-theme hover:text-white hover:underline decoration-dashed uppercase font-bold"
+                            >
+                                [ ABORT SIMULATION ]
+                            </button>
+                        </div>
                     </div>
                 </aside>
             </div>
