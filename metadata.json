@@ -1,0 +1,5 @@
+{
+  "name": "Gemini Chess Commentary",
+  "description": "Play a game of chess against a bot while a witty AI commentator powered by the Gemini API analyzes your every move. Get casual, insightful, and sometimes humorous feedback on the game.",
+  "requestFramePermissions": []
+}
