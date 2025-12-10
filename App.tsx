@@ -143,7 +143,10 @@ const App: React.FC = () => {
             if (bestMove) {
                 if (!gameRef.current.isGameOver() && gameRef.current.turn() !== playerColor) {
                     const gameInstance = gameRef.current;
-                    const result = gameInstance.move(bestMove.san);
+                    // Stockfish returns { from, to }, custom engine returned { san }.
+                    // game.move() supports both objects and SAN strings.
+                    // We pass the whole bestMove object to cover both cases.
+                    const result = gameInstance.move(bestMove as any);
                     if (result) {
                         setGame(gameInstance);
                         setGameVersion(v => v + 1);
