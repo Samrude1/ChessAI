@@ -11,6 +11,19 @@ interface AICommentaryProps {
     mood: Mood;
 }
 
+const getMoodLabel = (mood: Mood): string => {
+    const labels: Record<Mood, string> = {
+        confident: '😎 Confident',
+        neutral: '😊 Happy',
+        worried: '😰 Nervous',
+        desperate: '😱 Panicking',
+        thinking: '🤔 Calculating',
+        excited: '🎉 Excited',
+        defeated: '😢 Defeated'
+    };
+    return labels[mood];
+};
+
 const AICommentary: React.FC<AICommentaryProps> = ({ commentaries, isLoading, isBotThinking, mood }) => {
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -47,10 +60,10 @@ const AICommentary: React.FC<AICommentaryProps> = ({ commentaries, isLoading, is
                     {/* Glow effect behind the face */}
                     <div className="absolute inset-0 bg-theme blur-3xl opacity-10 rounded-full animate-pulse"></div>
 
-                    {/* The Face Itself - Much Bigger */}
+                    {/* The Face Itself - HUGE for opponent presence */}
                     <YesManFace
                         mood={mood}
-                        className="w-24 h-24 lg:w-48 lg:h-48 xl:w-56 xl:h-56 text-theme drop-shadow-[0_0_15px_rgba(128,223,255,0.6)]"
+                        className="w-32 h-32 lg:w-56 lg:h-56 xl:w-64 xl:h-64 text-theme drop-shadow-[0_0_20px_rgba(128,223,255,0.8)]"
                     />
                 </div>
 
@@ -58,8 +71,15 @@ const AICommentary: React.FC<AICommentaryProps> = ({ commentaries, isLoading, is
                     <h2 className="text-2xl lg:text-4xl font-bold glow-text tracking-widest uppercase">YES MAN v2.1</h2>
                     <div className="flex items-center justify-center gap-3 mt-1">
                         <span className={`h-2 w-2 lg:h-3 lg:w-3 rounded-full ${isBotThinking ? 'bg-yellow-400 animate-ping' : 'bg-theme animate-pulse'}`}></span>
-                        <span className="text-sm lg:text-base opacity-90 tracking-[0.3em] font-bold text-theme shadow-black drop-shadow-md">
+                        <span className="text-base lg:text-lg opacity-90 tracking-[0.3em] font-bold text-theme shadow-black drop-shadow-md">
                             {isBotThinking ? "PROCESSING..." : "SYSTEM ONLINE"}
+                        </span>
+                    </div>
+
+                    {/* Mood Indicator */}
+                    <div className="mt-2">
+                        <span className="text-base lg:text-lg opacity-70 text-theme uppercase tracking-wider">
+                            Mindset: <span className="font-bold opacity-90">{getMoodLabel(mood)}</span>
                         </span>
                     </div>
                 </div>
@@ -73,13 +93,13 @@ const AICommentary: React.FC<AICommentaryProps> = ({ commentaries, isLoading, is
                 {commentaries.length === 0 && !isLoading && (
                     <div className="text-theme mt-2 text-center opacity-90 animate-pulse text-xl lg:text-2xl">
                         <p>&gt; WAITING FOR INPUT...</p>
-                        <p className="mt-2 text-base lg:text-lg opacity-70">"I'm just so happy to be here!"</p>
+                        <p className="mt-2 text-lg lg:text-xl opacity-70">"I'm just so happy to be here!"</p>
                     </div>
                 )}
 
                 {commentaries.map((c, index) => (
                     <div key={index} className="animate-fade-in border-l-4 border-theme pl-4 mb-4 bg-theme-dim/5 py-2">
-                        <div className="flex items-center justify-between text-sm text-theme opacity-70 uppercase mb-2 tracking-widest font-bold border-b border-theme/30 pb-1">
+                        <div className="flex items-center justify-between text-base text-theme opacity-70 uppercase mb-2 tracking-widest font-bold border-b border-theme/30 pb-1">
                             <span>LOG_{c.moveNumber.toString().padStart(3, '0')}</span>
                             <span>{c.player === 'Human' ? 'USER' : 'AI'}</span>
                         </div>

@@ -11,7 +11,7 @@ interface ChessboardProps {
 const Chessboard: React.FC<ChessboardProps> = ({ game, onMove, orientation }) => {
     const [fromSquare, setFromSquare] = useState<Square | null>(null);
     const [possibleMoves, setPossibleMoves] = useState<Square[]>([]);
-    
+
     const board = useMemo(() => game.board(), [game.fen()]);
 
     const handleSquareClick = (square: Square) => {
@@ -49,11 +49,11 @@ const Chessboard: React.FC<ChessboardProps> = ({ game, onMove, orientation }) =>
             }
         }
     };
-    
+
     const getPieceAt = (square: Square) => {
         return game.get(square);
     }
-    
+
     const lastMove = game.history({ verbose: true }).slice(-1)[0];
 
     const renderGrid = () => {
@@ -62,9 +62,9 @@ const Chessboard: React.FC<ChessboardProps> = ({ game, onMove, orientation }) =>
             const cols = [];
             for (let c = 0; c < 8; c++) {
                 let fileIdx, rankIdx;
-                
+
                 if (orientation === 'w') {
-                    rankIdx = 7 - r; 
+                    rankIdx = 7 - r;
                     fileIdx = c;
                 } else {
                     rankIdx = r;
@@ -74,9 +74,9 @@ const Chessboard: React.FC<ChessboardProps> = ({ game, onMove, orientation }) =>
                 const fileChar = String.fromCharCode(97 + fileIdx);
                 const rankChar = String(rankIdx + 1);
                 const squareName = `${fileChar}${rankChar}` as Square;
-                
+
                 const piece = game.get(squareName);
-                const isLightSquare = (rankIdx + fileIdx) % 2 !== 0; 
+                const isLightSquare = (rankIdx + fileIdx) % 2 !== 0;
                 const isSelected = fromSquare === squareName;
                 const isPossibleMove = possibleMoves.includes(squareName);
                 const isLastMove = lastMove && (lastMove.from === squareName || lastMove.to === squareName);
@@ -97,17 +97,17 @@ const Chessboard: React.FC<ChessboardProps> = ({ game, onMove, orientation }) =>
                             ${isCheck ? 'bg-red-900/50 animate-pulse' : ''}`}
                     >
                         {/* Coordinates: Increased size (text-lg) for better readability */}
-                        {orientation === 'w' && c === 0 && <span className="absolute top-0.5 left-1 text-base sm:text-lg text-[#80dfff] font-mono font-bold z-10">{rankChar}</span>}
-                        {orientation === 'w' && r === 7 && <span className="absolute bottom-0 right-1 text-base sm:text-lg text-[#80dfff] font-mono font-bold z-10">{fileChar}</span>}
+                        {orientation === 'w' && c === 0 && <span className="absolute top-0.5 left-1 text-lg sm:text-xl text-[#80dfff] font-mono font-bold z-10">{rankChar}</span>}
+                        {orientation === 'w' && r === 7 && <span className="absolute bottom-0 right-1 text-lg sm:text-xl text-[#80dfff] font-mono font-bold z-10">{fileChar}</span>}
 
                         {/* Highlight Last Move */}
                         {isLastMove && <div className="absolute inset-0 bg-[#80dfff]/20 border border-[#80dfff]"></div>}
-                        
+
                         {/* Highlight Selection */}
                         {isSelected && <div className="absolute inset-0 bg-[#80dfff]/30 border-2 border-[#80dfff]"></div>}
-                        
+
                         {/* Piece */}
-                        <div 
+                        <div
                             className="z-10 w-full h-full p-1 sm:p-2 transform transition-transform duration-100"
                         >
                             {piece && PIECE_COMPONENTS[`${piece.color}${piece.type.toUpperCase()}`]}
@@ -119,7 +119,7 @@ const Chessboard: React.FC<ChessboardProps> = ({ game, onMove, orientation }) =>
                         )}
                         {isCapture && (
                             <div className="absolute inset-0 border-4 border-[#80dfff] z-20">
-                                <div className="absolute top-0 right-0 text-xs font-bold bg-[#80dfff] text-black px-1 tracking-wider">TARGET</div>
+                                <div className="absolute top-0 right-0 text-base font-bold bg-[#80dfff] text-black px-1 tracking-wider">TARGET</div>
                             </div>
                         )}
                     </div>

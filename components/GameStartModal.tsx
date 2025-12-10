@@ -48,7 +48,7 @@ const GameStartModal: React.FC<GameStartModalProps> = ({ onSelectSide }) => {
                                 background: `linear-gradient(to right, var(--terminal-blue) 0%, var(--terminal-blue) ${(skillLevel / 20) * 100}%, rgba(128, 223, 255, 0.2) ${(skillLevel / 20) * 100}%, rgba(128, 223, 255, 0.2) 100%)`
                             }}
                         />
-                        <div className="flex justify-between mt-2 text-xs text-theme opacity-60">
+                        <div className="flex justify-between mt-2 text-base text-theme opacity-80">
                             <span>0</span>
                             <span>5</span>
                             <span>10</span>

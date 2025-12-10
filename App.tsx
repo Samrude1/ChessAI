@@ -62,10 +62,41 @@ const App: React.FC = () => {
         setStatus(newStatus);
     }, [game]);
 
+    // Evaluate material advantage/disadvantage
+    const evaluateMaterial = (playerColor: 'w' | 'b'): number => {
+        const board = game.board();
+        const values: Record<string, number> = { p: 1, n: 3, b: 3, r: 5, q: 9, k: 0 };
+        let botMaterial = 0, playerMaterial = 0;
+
+        board.flat().forEach(square => {
+            if (!square) return;
+            const value = values[square.type];
+            if (square.color === playerColor) playerMaterial += value;
+            else botMaterial += value;
+        });
+
+        return botMaterial - playerMaterial; // Positive = bot winning
+    };
+
     // Determine Yes Man's mood based on game state
     const getMood = (): Mood => {
         if (isBotThinking || isCommentaryLoading) return 'thinking';
-        if (game.inCheck() || game.isCheckmate()) return 'excited';
+
+        if (game.isCheckmate()) {
+            return game.turn() === playerColor ? 'defeated' : 'excited';
+        }
+
+        if (game.inCheck()) return 'excited';
+
+        if (!playerColor) return 'neutral';
+
+        // Material evaluation
+        const material = evaluateMaterial(playerColor);
+
+        if (material <= -5) return 'desperate';
+        if (material <= -2) return 'worried';
+        if (material >= 2) return 'confident';
+
         return 'neutral';
     };
 
@@ -95,7 +126,8 @@ const App: React.FC = () => {
             const justMovedColor = nextTurn === 'w' ? 'b' : 'w';
             const playerType = justMovedColor === playerColor ? 'Human' : 'Bot';
 
-            const comment = await getAiCommentary(pgn, lastMove, reason, playerType, playerColor);
+            const currentMood = getMood();
+            const comment = await getAiCommentary(pgn, lastMove, reason, playerType, playerColor, currentMood);
 
             setCommentaries(prev => [...prev, { moveNumber, player: playerType, move: lastMove, comment }]);
             soundEngine.playComputerProcessing();
@@ -106,29 +138,26 @@ const App: React.FC = () => {
         }
     }, [playerColor]);
 
+
     const decideOnCommentary = (move: Move): { shouldComment: boolean; reason: string } => {
-        // Strict filtering to reduce spam: Only comment on significant events.
+        // YesMan is a chess expert robot - only comments on tactically important moves
 
         if (gameRef.current.isCheckmate()) return { shouldComment: true, reason: 'Game over: Checkmate.' };
         if (gameRef.current.isDraw()) return { shouldComment: true, reason: 'Game over: Draw.' };
 
-        // Check
-        if (move.san.includes('+') || move.san.includes('#')) return { shouldComment: true, reason: 'Check.' };
+        // Check - Always important
+        if (move.san.includes('+') || move.san.includes('#')) return { shouldComment: true, reason: 'Check detected. King under threat.' };
 
-        // Capture
-        if (move.captured || move.flags.includes('c')) return { shouldComment: true, reason: 'Piece captured.' };
+        // Capture - Material exchange
+        if (move.captured || move.flags.includes('c')) return { shouldComment: true, reason: 'Piece captured. Material change.' };
 
-        // Promotion
-        if (move.promotion || move.flags.includes('p')) return { shouldComment: true, reason: 'Pawn promotion.' };
+        // Promotion - Critical transformation
+        if (move.promotion || move.flags.includes('p')) return { shouldComment: true, reason: 'Pawn promotion. New piece acquired.' };
 
-        // Castling (Strategic move)
-        if (move.san.includes('O-O')) return { shouldComment: true, reason: 'Castling.' };
+        // Castling - Strategic king safety
+        if (move.san.includes('O-O')) return { shouldComment: true, reason: 'Castling executed. King repositioned.' };
 
-        // Rarely comment on other moves to act alive (5% chance)
-        if (Math.random() < 0.05) {
-            return { shouldComment: true, reason: 'General gameplay observation. No specific tactic, just random chatter.' };
-        }
-
+        // Don't spam - robot only speaks when tactically relevant
         return { shouldComment: false, reason: '' };
     };
 
@@ -301,8 +330,9 @@ const App: React.FC = () => {
                 {/* 
                    Mobile: h-[35vh] (Fixed height to prevent growing indefinitely)
                    Desktop: h-auto (Fills remaining height if needed, or flex-grown by parent)
+                   INCREASED WIDTH: Making AI more prominent like a real opponent
                 */}
-                <aside className="flex flex-col w-full lg:w-80 xl:w-96 lg:h-full gap-4 shrink-0 h-[35vh] lg:h-auto lg:min-h-0">
+                <aside className="flex flex-col w-full lg:w-96 xl:w-[28rem] lg:h-full gap-4 shrink-0 h-[35vh] lg:h-auto lg:min-h-0">
                     <div className="terminal-border flex-1 flex flex-col p-4 bg-black relative overflow-hidden h-full min-h-0">
                         <AICommentary
                             commentaries={commentaries}
@@ -326,13 +356,26 @@ const App: React.FC = () => {
                                     a.click();
                                     URL.revokeObjectURL(url);
                                 }}
-                                className="text-lg text-theme hover:text-white hover:underline decoration-dashed uppercase font-bold"
+                                className="text-xl text-theme hover:text-white hover:underline decoration-dashed uppercase font-bold"
                             >
                                 [ DOWNLOAD PGN ]
                             </button>
                             <button
+                                onClick={() => {
+                                    if (!gameOver) {
+                                        setGameOver(true);
+                                        setStatus("PLAYER RESIGNED. SECURITRON VICTORIOUS.");
+                                        soundEngine.playCheck();
+                                    }
+                                }}
+                                disabled={gameOver}
+                                className={`text-xl ${gameOver ? 'text-theme/30 cursor-not-allowed' : 'text-red-500 hover:text-red-300'} hover:underline decoration-dashed uppercase font-bold`}
+                            >
+                                [ RESIGN ]
+                            </button>
+                            <button
                                 onClick={() => setPlayerColor(null)}
-                                className="text-xl text-theme hover:text-white hover:underline decoration-dashed uppercase font-bold"
+                                className="text-2xl text-theme hover:text-white hover:underline decoration-dashed uppercase font-bold"
                             >
                                 [ ABORT SIMULATION ]
                             </button>
