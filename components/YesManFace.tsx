@@ -23,23 +23,50 @@ const YesManFace: React.FC<YesManFaceProps> = ({ mood, className = "w-16 h-16" }
             <line x1="8" y1="32" x2="56" y2="32" stroke="currentColor" strokeWidth="0.5" opacity="0.1" />
             <line x1="8" y1="40" x2="56" y2="40" stroke="currentColor" strokeWidth="0.5" opacity="0.1" />
 
-            {/* --- NEUTRAL (Classic Smile) --- */}
+            {/* --- NEUTRAL (Classic Yes Man Smile - Pixelated) --- */}
             {mood === 'neutral' && (
                 <g fill="currentColor">
-                    {/* Eyes */}
-                    <rect x="18" y="20" width="4" height="6" />
-                    <rect x="42" y="20" width="4" height="6" />
+                    {/* Large Oval Eyes (pixelated) */}
+                    <rect x="16" y="20" width="2" height="2" />
+                    <rect x="18" y="19" width="4" height="1" />
+                    <rect x="18" y="27" width="4" height="1" />
+                    <rect x="22" y="20" width="2" height="2" />
+                    <rect x="17" y="21" width="1" height="5" />
+                    <rect x="23" y="21" width="1" height="5" />
 
-                    {/* Smile */}
-                    <rect x="14" y="36" width="4" height="2" />
-                    <rect x="16" y="38" width="4" height="2" />
-                    <rect x="20" y="40" width="24" height="2" />
-                    <rect x="44" y="38" width="4" height="2" />
-                    <rect x="46" y="36" width="4" height="2" />
+                    <rect x="40" y="20" width="2" height="2" />
+                    <rect x="42" y="19" width="4" height="1" />
+                    <rect x="42" y="27" width="4" height="1" />
+                    <rect x="46" y="20" width="2" height="2" />
+                    <rect x="41" y="21" width="1" height="5" />
+                    <rect x="47" y="21" width="1" height="5" />
 
-                    {/* Dimples */}
-                    <rect x="12" y="34" width="2" height="2" opacity="0.7" />
-                    <rect x="50" y="34" width="2" height="2" opacity="0.7" />
+                    {/* Pupils */}
+                    <rect x="19" y="23" width="3" height="3" />
+                    <rect x="42" y="23" width="3" height="3" />
+
+                    {/* Eyebrows (pixelated arc) */}
+                    <rect x="16" y="16" width="2" height="2" />
+                    <rect x="18" y="15" width="4" height="1" />
+                    <rect x="22" y="16" width="2" height="2" />
+
+                    <rect x="40" y="16" width="2" height="2" />
+                    <rect x="42" y="15" width="4" height="1" />
+                    <rect x="46" y="16" width="2" height="2" />
+
+                    {/* Big Smile (pixelated curve) */}
+                    <rect x="18" y="38" width="2" height="2" />
+                    <rect x="20" y="40" width="4" height="2" />
+                    <rect x="24" y="42" width="16" height="2" />
+                    <rect x="40" y="40" width="4" height="2" />
+                    <rect x="44" y="38" width="2" height="2" />
+
+                    {/* Open mouth */}
+                    <rect x="26" y="42" width="12" height="4" opacity="0.8" />
+
+                    {/* Teeth */}
+                    <rect x="28" y="42" width="3" height="2" fill="#000" opacity="0.6" />
+                    <rect x="33" y="42" width="3" height="2" fill="#000" opacity="0.6" />
                 </g>
             )}
 
@@ -60,20 +87,53 @@ const YesManFace: React.FC<YesManFaceProps> = ({ mood, className = "w-16 h-16" }
                 </g>
             )}
 
-            {/* --- EXCITED (Check/Win) --- */}
+            {/* --- EXCITED (Check/Win - Pixelated) --- */}
             {mood === 'excited' && (
                 <g fill="currentColor">
-                    {/* Wide Eyes */}
-                    <rect x="16" y="18" width="6" height="8" />
-                    <rect x="42" y="18" width="6" height="8" />
+                    {/* Very Wide Eyes (pixelated) */}
+                    <rect x="14" y="19" width="2" height="2" />
+                    <rect x="16" y="18" width="6" height="1" />
+                    <rect x="16" y="28" width="6" height="1" />
+                    <rect x="22" y="19" width="2" height="2" />
+                    <rect x="15" y="20" width="1" height="7" />
+                    <rect x="23" y="20" width="1" height="7" />
 
-                    {/* Big Grin */}
-                    <path d="M16 36 h32 v2 h-2 v2 h-2 v2 h-2 v2 h-16 v-2 h-2 v-2 h-2 v-2 h-2 v-2 h-4 z" />
+                    <rect x="38" y="19" width="2" height="2" />
+                    <rect x="40" y="18" width="6" height="1" />
+                    <rect x="40" y="28" width="6" height="1" />
+                    <rect x="46" y="19" width="2" height="2" />
+                    <rect x="39" y="20" width="1" height="7" />
+                    <rect x="47" y="20" width="1" height="7" />
+
+                    {/* Large pupils */}
+                    <rect x="17" y="22" width="4" height="4" />
+                    <rect x="41" y="22" width="4" height="4" />
+
+                    {/* Raised eyebrows (pixelated) */}
+                    <rect x="14" y="13" width="2" height="2" />
+                    <rect x="16" y="12" width="6" height="1" />
+                    <rect x="22" y="13" width="2" height="2" />
+
+                    <rect x="38" y="13" width="2" height="2" />
+                    <rect x="40" y="12" width="6" height="1" />
+                    <rect x="46" y="13" width="2" height="2" />
+
+                    {/* Huge Excited Grin (pixelated curve) */}
+                    <rect x="16" y="36" width="2" height="2" />
+                    <rect x="18" y="38" width="4" height="2" />
+                    <rect x="22" y="40" width="4" height="2" />
+                    <rect x="26" y="42" width="12" height="2" />
+                    <rect x="38" y="40" width="4" height="2" />
+                    <rect x="42" y="38" width="4" height="2" />
+                    <rect x="46" y="36" width="2" height="2" />
+
+                    {/* Open mouth */}
+                    <rect x="24" y="42" width="16" height="5" opacity="0.9" />
 
                     {/* Teeth */}
-                    <rect x="20" y="36" width="4" height="2" fill="#000" />
-                    <rect x="28" y="36" width="8" height="2" fill="#000" />
-                    <rect x="40" y="36" width="4" height="2" fill="#000" />
+                    <rect x="26" y="43" width="3" height="2" fill="#000" opacity="0.7" />
+                    <rect x="30" y="43" width="4" height="2" fill="#000" opacity="0.7" />
+                    <rect x="35" y="43" width="3" height="2" fill="#000" opacity="0.7" />
 
                     {/* Exclamation */}
                     <rect x="30" y="10" width="4" height="6" className="animate-pulse" />

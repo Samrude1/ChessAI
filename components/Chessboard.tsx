@@ -94,11 +94,13 @@ const Chessboard: React.FC<ChessboardProps> = ({ game, onMove, orientation }) =>
                         onClick={() => handleSquareClick(squareName)}
                         className={`w-full h-full flex items-center justify-center relative select-none
                             ${bgClass} border-[0.5px] border-[#80dfff]/10
-                            ${isCheck ? 'bg-red-900/50 animate-pulse' : ''}`}
+                            ${isCheck ? 'bg-blue-600/50 animate-pulse border-2 border-cyan-400' : ''}`}
                     >
-                        {/* Coordinates: Increased size (text-lg) for better readability */}
-                        {orientation === 'w' && c === 0 && <span className="absolute top-0.5 left-1 text-lg sm:text-xl text-[#80dfff] font-mono font-bold z-10">{rankChar}</span>}
-                        {orientation === 'w' && r === 7 && <span className="absolute bottom-0 right-1 text-lg sm:text-xl text-[#80dfff] font-mono font-bold z-10">{fileChar}</span>}
+                        {/* Rank/File Labels */}
+                        {orientation === 'w' && c === 0 && <span className={`absolute top-0.5 left-0.5 text-[6px] sm:text-[8px] font-bold ${isLightSquare ? 'text-black/40' : 'text-[#80dfff]/60'}`}>{rankChar}</span>}
+                        {orientation === 'w' && r === 7 && <span className={`absolute bottom-0.5 right-0.5 text-[6px] sm:text-[8px] font-bold ${isLightSquare ? 'text-black/40' : 'text-[#80dfff]/60'}`}>{fileChar}</span>}
+                        {orientation === 'b' && c === 0 && <span className={`absolute top-0.5 left-0.5 text-[6px] sm:text-[8px] font-bold ${isLightSquare ? 'text-black/40' : 'text-[#80dfff]/60'}`}>{rankChar}</span>}
+                        {orientation === 'b' && r === 7 && <span className={`absolute bottom-0.5 right-0.5 text-[6px] sm:text-[8px] font-bold ${isLightSquare ? 'text-black/40' : 'text-[#80dfff]/60'}`}>{fileChar}</span>}
 
                         {/* Highlight Last Move */}
                         {isLastMove && <div className="absolute inset-0 bg-[#80dfff]/20 border border-[#80dfff]"></div>}
@@ -108,7 +110,7 @@ const Chessboard: React.FC<ChessboardProps> = ({ game, onMove, orientation }) =>
 
                         {/* Piece */}
                         <div
-                            className="z-10 w-full h-full p-1 sm:p-2 transform transition-transform duration-100"
+                            className="z-10 w-full h-full p-[2px] sm:p-1"
                         >
                             {piece && PIECE_COMPONENTS[`${piece.color}${piece.type.toUpperCase()}`]}
                         </div>

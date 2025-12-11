@@ -1,76 +1,165 @@
-# RobCo Chess Terminal v2.1
+# Yes Man Chess Terminal
 
-**"I'm just so happy to be playing chess with you, Partner!"**
+A retro-futuristic chess game featuring **Yes Man** from Fallout: New Vegas as your AI opponent, with a blue terminal aesthetic and dramatic personality-driven commentary.
 
-RobCo Chess Terminal is a retro-futuristic chess application built with **React**, **TypeScript**, and the **Google Gemini API**. It simulates a monochrome CRT terminal from the Fallout universe, featuring the overly enthusiastic "Yes Man" Securitron as your opponent and commentator.
+![Yes Man Chess](https://img.shields.io/badge/Chess-AI%20Powered-80dfff?style=for-the-badge)
+![Fallout Theme](https://img.shields.io/badge/Theme-Fallout-80dfff?style=for-the-badge)
+![React](https://img.shields.io/badge/React-18-80dfff?style=for-the-badge)
 
-## 📺 Features
+## 🎮 Features
 
-### ☢️ Retro Aesthetic
-- **Phosphor Blue Theme**: A high-contrast monochrome color scheme (Phosphor #80dfff) typical of RobCo terminals.
-- **CRT Simulation**: Real-time CSS effects including scanlines, screen curvature, chromatic aberration (RGB split), static noise, and screen flicker.
-- **Pixel Art Interface**: Custom-designed SVG chess pieces and a reactive pixel-art face for Yes Man.
+### 🤖 Yes Man AI Opponent
+- **Personality-Driven Commentary** - Yes Man reacts to every move with his characteristic cheerful, overly-helpful personality
+- **Dynamic Moods** - Face and commentary change based on game state:
+  - 😎 **Confident** - Winning position
+  - 😊 **Happy** - Neutral game
+  - 😰 **Nervous** - Losing slightly
+  - 😱 **Panicking** - Desperate position
+  - 🤔 **Calculating** - Thinking about moves
+  - 🎉 **Excited** - Check or critical moments
 
-### 🤖 AI Persona ("Yes Man")
-- **Dynamic Commentary**: Powered by the **Gemini 2.5 Flash** model, the AI analyzes your moves and provides witty, in-character comments.
-- **Context Awareness**: The bot knows if it's winning, losing, attacking, or defending. It gloats politely when it captures a piece and compliments you aggressively when you make a good move.
-- **Mood System**: Yes Man's face reacts to the game state—smiling neutrally during normal play, looking focused when thinking, and grinning excitedly during Checks or Victories.
+### ♟️ Adjustable Difficulty
+- **6 Difficulty Levels**: Beginner → Intermediate → Advanced → Master
+- **Powered by Stockfish** - Professional-grade chess engine
+- **Skill Range 0-20** - Fine-tune AI strength to your level
 
-### ♟️ Chess Engine (Stockfish 17)
-- **Stockfish 17 Lite**: A world-class chess engine running via WebAssembly in a Web Worker.
-- **Super-Grandmaster Strength**: Plays at ~3000+ ELO with 1 second per move thinking time.
-- **Robust Architecture**: Includes timeout handling and automatic worker restart to prevent freezes.
+### 🎨 Retro Terminal Aesthetic
+- **Blue CRT Theme** - Authentic terminal green/blue color scheme
+- **Pixelated Yes Man Face** - Retro pixel-art style with expressive animations
+- **Scanline Effects** - Classic CRT monitor look
+- **Terminal Sounds** - Immersive audio feedback
 
-### 🔊 Audio Atmosphere
-- **Web Audio API Synth**: No external audio files—all sounds are generated in real-time.
-- **Ambient Noise**: A procedural background loop simulating 60Hz electrical hum and cooling fans.
-- **Retro SFX**: Square and sawtooth wave "beeps" and "boops" for moves, captures, and computer processing.
-
-## 🛠️ Tech Stack
-
-- **Frontend**: React 19, TypeScript, Vite
-- **Styling**: Custom CSS with CRT effects
-- **Chess Logic**: `chess.js` (Move validation)
-- **Chess Engine**: `stockfish` (WebAssembly)
-- **AI Commentary**: `@google/genai` (Gemini API)
-- **Audio**: Native Web Audio API
+### 🎯 Gameplay Features
+- **Move Validation** - Legal moves only, powered by chess.js
+- **Move Highlighting** - Visual indicators for selected pieces and possible moves
+- **Captured Pieces Display** - Track material advantage
+- **Move History** - Full game notation
+- **Resign Option** - Concede when needed
 
 ## 🚀 Getting Started
 
-1. **Install dependencies**:
-   ```bash
-   npm install
-   ```
+### Prerequisites
+- Node.js 16+
+- npm or yarn
 
-2. **Set up environment**:
-   Create a `.env.local` file with your Gemini API key:
-   ```
-   VITE_GEMINI_API_KEY=your_api_key_here
-   ```
+### Installation
 
-3. **Run the development server**:
-   ```bash
-   npm run dev
-   ```
+```bash
+# Clone the repository
+git clone <your-repo-url>
+cd gemini-chess-commentary
 
-4. **Open in browser**: Navigate to `http://localhost:3000`
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.example .env.local
+# Add your Gemini API key to .env.local
+```
+
+### Environment Variables
+
+Create a `.env.local` file:
+
+```env
+VITE_GEMINI_API_KEY=your_gemini_api_key_here
+```
+
+### Running the Game
+
+```bash
+# Development mode
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+```
 
 ## 🎮 How to Play
 
-1. **Select a Side**: Choose "Initiate" (White) or "React" (Black) on the startup screen.
-2. **Make Moves**: Click a piece to select it, then click a valid target square (highlighted).
-3. **Listen & Watch**:
-   - The "Data Log" on the left records the move history.
-   - The "Yes Man" monitor on the right displays the AI's thoughts and facial expressions.
-   - Listen for the retro sound effects and ambient hum.
-4. **Game Over**: The terminal will display a "Critical Failure" (Loss) or "Victory" screen upon Checkmate.
+1. **Start Game** - Choose your color (White or Black)
+2. **Select Difficulty** - Adjust the AI threat level slider (0-20)
+3. **Make Moves** - Click a piece, then click where you want to move it
+4. **Watch Yes Man React** - Enjoy his commentary and facial expressions
+5. **Win or Learn** - Yes Man will congratulate or console you!
 
-## ⚠️ Notes
+## 🛠️ Tech Stack
 
-- The game is optimized for desktop but includes a mobile-responsive layout.
-- Requires a valid `VITE_GEMINI_API_KEY` for the Gemini API to enable commentary.
-- Stockfish runs in a Web Worker to prevent UI freezing.
+- **React 18** - UI framework
+- **TypeScript** - Type safety
+- **Vite** - Build tool
+- **Tailwind CSS** - Styling
+- **chess.js** - Chess logic and validation
+- **Stockfish** - AI chess engine
+- **Google Gemini AI** - Natural language commentary generation
+
+## 📁 Project Structure
+
+```
+gemini-chess-commentary/
+├── components/
+│   ├── AICommentary.tsx      # Yes Man monitor and commentary
+│   ├── Chessboard.tsx         # Interactive chess board
+│   ├── YesManFace.tsx         # Pixelated animated face
+│   ├── GameStartModal.tsx     # Difficulty selector
+│   ├── MoveHistory.tsx        # Game notation
+│   └── CapturedPieces.tsx     # Material tracker
+├── services/
+│   ├── chessEngine.ts         # Stockfish integration
+│   ├── geminiService.ts       # AI commentary generation
+│   └── soundService.ts        # Audio effects
+├── constants.tsx              # Chess piece SVGs
+└── App.tsx                    # Main application
+```
+
+## 🎨 Customization
+
+### Color Theme
+The entire UI uses a blue/cyan terminal theme. Colors are defined in:
+- `tailwind.config.js` - Theme colors
+- `index.css` - CSS variables
+
+### AI Personality
+Modify Yes Man's personality in `services/geminiService.ts`:
+- Adjust commentary style
+- Change mood-based responses
+- Customize robot sounds and glitches
+
+### Difficulty Levels
+Adjust AI strength in `components/GameStartModal.tsx`:
+- Modify skill level ranges
+- Change difficulty labels
+
+## 🐛 Known Issues
+
+- Stockfish worker may take a moment to initialize on first load
+- AI commentary requires active internet connection (Gemini API)
+
+## 📝 License
+
+This project is open source and available under the MIT License.
+
+## 🙏 Credits
+
+- **Yes Man Character** - Fallout: New Vegas (Bethesda/Obsidian)
+- **Chess Engine** - Stockfish
+- **AI Commentary** - Google Gemini
+- **Chess Logic** - chess.js library
+
+## 🎯 Future Enhancements
+
+- [ ] Save/Load games
+- [ ] Game analysis mode
+- [ ] Multiple AI personalities
+- [ ] Online multiplayer
+- [ ] Opening book integration
+- [ ] Puzzle mode
 
 ---
 
-*"Now, if you'll excuse me, I have to go plan my next move! It's going to be great!"*
+**Enjoy playing chess against Yes Man!** 🤖♟️
+
+*"I'm programmed to help you win... or at least try really hard!"* - Yes Man

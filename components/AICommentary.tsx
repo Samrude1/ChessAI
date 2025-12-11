@@ -13,13 +13,13 @@ interface AICommentaryProps {
 
 const getMoodLabel = (mood: Mood): string => {
     const labels: Record<Mood, string> = {
-        confident: '😎 Confident',
-        neutral: '😊 Happy',
-        worried: '😰 Nervous',
-        desperate: '😱 Panicking',
-        thinking: '🤔 Calculating',
-        excited: '🎉 Excited',
-        defeated: '😢 Defeated'
+        confident: 'Confident',
+        neutral: 'Happy',
+        worried: 'Nervous',
+        desperate: 'Panicking',
+        thinking: 'Calculating',
+        excited: 'Excited',
+        defeated: 'Defeated'
     };
     return labels[mood];
 };
@@ -56,30 +56,44 @@ const AICommentary: React.FC<AICommentaryProps> = ({ commentaries, isLoading, is
                     }}>
                 </div>
 
-                <div className="relative z-10 transition-transform duration-500 transform lg:group-hover:scale-105">
-                    {/* Glow effect behind the face */}
-                    <div className="absolute inset-0 bg-theme blur-3xl opacity-10 rounded-full animate-pulse"></div>
+                <div className={`relative z-10 transition-all duration-500 ${mood === 'confident' ? 'scale-110' :
+                    mood === 'worried' ? 'animate-pulse' :
+                        mood === 'desperate' ? 'animate-bounce' :
+                            mood === 'excited' ? 'scale-105 animate-pulse' :
+                                'scale-100'
+                    }`}>
+                    {/* Glow effect behind the face - changes with mood */}
+                    <div className={`absolute inset-0 blur-3xl rounded-full animate-pulse ${mood === 'confident' ? 'bg-theme opacity-30' :
+                        mood === 'worried' ? 'bg-blue-400 opacity-20' :
+                            mood === 'desperate' ? 'bg-indigo-500 opacity-25' :
+                                mood === 'excited' ? 'bg-theme opacity-40' :
+                                    'bg-theme opacity-10'
+                        }`}></div>
 
-                    {/* The Face Itself - HUGE for opponent presence */}
+                    {/* The Face Itself - MUCH BIGGER for dramatic presence */}
                     <YesManFace
                         mood={mood}
-                        className="w-32 h-32 lg:w-56 lg:h-56 xl:w-64 xl:h-64 text-theme drop-shadow-[0_0_20px_rgba(128,223,255,0.8)]"
+                        className="w-40 h-40 lg:w-72 lg:h-72 xl:w-96 xl:h-96 text-theme drop-shadow-[0_0_30px_rgba(128,223,255,0.9)]"
                     />
                 </div>
 
                 <div className="z-10 text-center mt-2 lg:mt-4">
                     <h2 className="text-2xl lg:text-4xl font-bold glow-text tracking-widest uppercase">YES MAN v2.1</h2>
                     <div className="flex items-center justify-center gap-3 mt-1">
-                        <span className={`h-2 w-2 lg:h-3 lg:w-3 rounded-full ${isBotThinking ? 'bg-yellow-400 animate-ping' : 'bg-theme animate-pulse'}`}></span>
+                        <span className={`h-2 w-2 lg:h-3 lg:w-3 rounded-full ${isBotThinking ? 'bg-cyan-400 animate-ping' : 'bg-theme animate-pulse'}`}></span>
                         <span className="text-base lg:text-lg opacity-90 tracking-[0.3em] font-bold text-theme shadow-black drop-shadow-md">
                             {isBotThinking ? "PROCESSING..." : "SYSTEM ONLINE"}
                         </span>
                     </div>
 
-                    {/* Mood Indicator */}
+                    {/* Mood Indicator with personality */}
                     <div className="mt-2">
                         <span className="text-base lg:text-lg opacity-70 text-theme uppercase tracking-wider">
-                            Mindset: <span className="font-bold opacity-90">{getMoodLabel(mood)}</span>
+                            Mindset: <span className={`font-bold opacity-90 ${mood === 'confident' ? 'text-cyan-300' :
+                                mood === 'worried' ? 'text-blue-300' :
+                                    mood === 'desperate' ? 'text-indigo-400' :
+                                        'text-theme'
+                                }`}>{getMoodLabel(mood)}</span>
                         </span>
                     </div>
                 </div>

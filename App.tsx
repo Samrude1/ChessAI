@@ -100,9 +100,8 @@ const App: React.FC = () => {
         return 'neutral';
     };
 
-    const startGame = (color: 'w' | 'b', skillLevel: number) => {
+    const startGame = (color: 'w' | 'b', skillLevel: number = 10) => {
         soundEngine.playGameStart();
-        setSkillLevel(skillLevel); // Set Stockfish difficulty
         const newGame = new Chess();
         setGame(newGame);
         setPlayerColor(color);
@@ -111,7 +110,10 @@ const App: React.FC = () => {
         setIsBotThinking(false);
         setIsCommentaryLoading(false);
         setGameVersion(v => v + 1);
-        setStatus("INITIALIZING NEW SIMULATION...");
+        setStatus("SYSTEM INITIALIZED. COMBAT PROTOCOLS ACTIVE.");
+
+        // Set AI difficulty
+        setSkillLevel(skillLevel);
     };
 
     const fetchCommentary = useCallback(async (pgn: string, lastMove: string, reason: string) => {
@@ -369,7 +371,7 @@ const App: React.FC = () => {
                                     }
                                 }}
                                 disabled={gameOver}
-                                className={`text-xl ${gameOver ? 'text-theme/30 cursor-not-allowed' : 'text-red-500 hover:text-red-300'} hover:underline decoration-dashed uppercase font-bold`}
+                                className={`text-xl ${gameOver ? 'text-theme/30 cursor-not-allowed' : 'text-cyan-400 hover:text-cyan-300'} hover:underline decoration-dashed uppercase font-bold`}
                             >
                                 [ RESIGN ]
                             </button>
