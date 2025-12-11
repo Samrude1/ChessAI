@@ -24,6 +24,9 @@ const App: React.FC = () => {
     const gameRef = useRef(game);
     gameRef.current = game;
 
+    // Track active API requests to handle race conditions
+    const activeCommentaryRequests = useRef(0);
+
     // Initialize Audio on first click to satisfy browser policies
     useEffect(() => {
         const initAudio = () => {
@@ -121,6 +124,7 @@ const App: React.FC = () => {
     const fetchCommentary = useCallback(async (pgn: string, lastMove: string, reason: string) => {
         if (!playerColor) return;
 
+        activeCommentaryRequests.current += 1;
         setIsCommentaryLoading(true);
         try {
             const moveNumber = Math.ceil(gameRef.current.history().length / 2);
@@ -138,13 +142,23 @@ const App: React.FC = () => {
         } catch (error) {
             console.error("Error fetching commentary:", error);
         } finally {
-            setIsCommentaryLoading(false);
+            activeCommentaryRequests.current -= 1;
+            // Only unlock if ALL (concurrent) requests are finished
+            if (activeCommentaryRequests.current === 0) {
+                setIsCommentaryLoading(false);
+                setIsBotThinking(false); // Also unlock bot thinking when commentary is done
+            }
         }
     }, [playerColor]);
 
 
-    const decideOnCommentary = (move: Move): { shouldComment: boolean; reason: string } => {
+    const decideOnCommentary = (move: any): { shouldComment: boolean; reason: string } => {
         // YesMan is a chess expert robot - only comments on tactically important moves
+
+        // Determine who moved and who is the opponent
+        // move.color is the color of the piece that JUST moved
+        const mover = move.color === playerColor ? 'User' : 'Yes Man';
+        const opponent = mover === 'User' ? 'Yes Man' : 'User';
 
         if (gameRef.current.isCheckmate()) {
             const loser = gameRef.current.turn() === playerColor ? 'User' : 'Yes Man';
@@ -156,16 +170,23 @@ const App: React.FC = () => {
         if (gameRef.current.isDraw()) return { shouldComment: true, reason: 'Game over: Draw.' };
 
         // Check - Always important
-        if (move.san.includes('+') || move.san.includes('#')) return { shouldComment: true, reason: 'Check detected. King under threat.' };
+        if (move.san.includes('+') || move.san.includes('#')) {
+            return { shouldComment: true, reason: `${mover} put ${opponent}'s King in check!` };
+        }
 
         // Capture - Material exchange
-        if (move.captured || move.flags.includes('c')) return { shouldComment: true, reason: 'Piece captured. Material change.' };
+        if (move.captured || move.flags.includes('c')) {
+            // Get piece names for better context
+            const pieceNames: Record<string, string> = { p: 'pawn', n: 'knight', b: 'bishop', r: 'rook', q: 'queen', k: 'king' };
+            const capturedPiece = pieceNames[move.captured] || 'piece';
+            return { shouldComment: true, reason: `${mover} captured ${opponent}'s ${capturedPiece}.` };
+        }
 
         // Promotion - Critical transformation
-        if (move.promotion || move.flags.includes('p')) return { shouldComment: true, reason: 'Pawn promotion. New piece acquired.' };
+        if (move.promotion || move.flags.includes('p')) return { shouldComment: true, reason: `${mover} promoted a pawn!` };
 
         // Castling - Strategic king safety
-        if (move.san.includes('O-O')) return { shouldComment: true, reason: 'Castling executed. King repositioned.' };
+        if (move.san.includes('O-O')) return { shouldComment: true, reason: `${mover} castled to safety.` };
 
         // Don't spam - robot only speaks when tactically relevant
         return { shouldComment: false, reason: '' };
@@ -199,10 +220,11 @@ const App: React.FC = () => {
                         const decision = decideOnCommentary(result);
                         if (decision.shouldComment) {
                             fetchCommentary(gameInstance.pgn(), result.san, decision.reason);
+                            // Don't set isBotThinking to false - let commentary loading handle it
+                        } else {
+                            // Only set false if no commentary is being generated
+                            setIsBotThinking(false);
                         }
-
-                        // Only set false AFTER successfully applying the move
-                        setIsBotThinking(false);
                     } else {
                         // Move failed to apply
                         setIsBotThinking(false);
@@ -265,6 +287,7 @@ const App: React.FC = () => {
             <div className="crt-noise"></div>
             <div className="crt-flicker"></div>
             <div className="crt-curve"></div>
+            <div className="crt-glitch"></div>
 
             {!playerColor && <GameStartModal onSelectSide={startGame} />}
 
@@ -317,7 +340,7 @@ const App: React.FC = () => {
                                         <h2 className="text-4xl sm:text-5xl font-bold text-theme mb-4 glow-text text-center px-4 tracking-widest">
                                             GAME OVER
                                         </h2>
-                                        <p className="mb-8 text-white text-xl sm:text-2xl font-mono text-center px-4">{status}</p>
+                                        <p className="mb-8 text-theme text-xl sm:text-2xl font-mono text-center px-4 glow-text">{status}</p>
                                         <button
                                             onClick={() => setPlayerColor(null)}
                                             className="px-6 py-3 sm:px-8 sm:py-4 bg-theme-dim text-theme font-bold text-xl sm:text-2xl hover:bg-theme hover:text-black border-2 border-theme uppercase tracking-wider transition-colors"
@@ -366,7 +389,7 @@ const App: React.FC = () => {
                                     a.click();
                                     URL.revokeObjectURL(url);
                                 }}
-                                className="text-xl text-theme hover:text-white hover:underline decoration-dashed uppercase font-bold"
+                                className="text-xl text-theme hover:text-[#b3ecff] hover:underline decoration-dashed uppercase font-bold"
                             >
                                 [ DOWNLOAD PGN ]
                             </button>
@@ -379,13 +402,13 @@ const App: React.FC = () => {
                                     }
                                 }}
                                 disabled={gameOver}
-                                className={`text-xl ${gameOver ? 'text-theme/30 cursor-not-allowed' : 'text-cyan-400 hover:text-cyan-300'} hover:underline decoration-dashed uppercase font-bold`}
+                                className={`text-xl ${gameOver ? 'text-theme/30 cursor-not-allowed' : 'text-theme hover:text-[#b3ecff]'} hover:underline decoration-dashed uppercase font-bold`}
                             >
                                 [ RESIGN ]
                             </button>
                             <button
                                 onClick={() => setPlayerColor(null)}
-                                className="text-2xl text-theme hover:text-white hover:underline decoration-dashed uppercase font-bold"
+                                className="text-2xl text-theme hover:text-[#b3ecff] hover:underline decoration-dashed uppercase font-bold"
                             >
                                 [ ABORT SIMULATION ]
                             </button>

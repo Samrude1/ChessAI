@@ -36,18 +36,18 @@ const MoveHistory: React.FC<MoveHistoryProps> = ({ game }) => {
                 </thead>
                 <tbody className="text-xl font-mono">
                     {movePairs.map((pair) => (
-                        <tr key={pair.number} className="hover:bg-theme-dim/50 border-b border-theme/20 transition-colors">
+                        <tr key={pair.number} className="hover:bg-theme-dim/50 transition-colors">
                             <td className="px-2 py-1 text-theme font-bold">{pair.number.toString().padStart(2, '0')}</td>
                             <td className="px-2 py-1 text-theme">{pair.white}</td>
                             <td className="px-2 py-1 text-theme">{pair.black}</td>
                         </tr>
                     ))}
                     {movePairs.length === 0 && (
-                         <tr>
+                        <tr>
                             <td colSpan={3} className="px-2 py-12 text-center text-theme opacity-80 text-xl">
                                 -- NO DATA --
                             </td>
-                         </tr>
+                        </tr>
                     )}
                 </tbody>
             </table>

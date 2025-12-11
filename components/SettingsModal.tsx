@@ -51,7 +51,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                                 {currentAppBg && (
                                     <button
                                         onClick={onResetAppBg}
-                                        className="px-3 py-2 bg-blue-900/50 text-cyan-400 border border-cyan-400 hover:bg-cyan-400 hover:text-black text-sm uppercase font-bold"
+                                        className="px-3 py-2 bg-theme-dim text-theme border border-theme hover:bg-theme hover:text-black text-sm uppercase font-bold"
                                     >
                                         RESET
                                     </button>
@@ -75,7 +75,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                                 {currentBoardBg && (
                                     <button
                                         onClick={onResetBoardBg}
-                                        className="px-3 py-2 bg-blue-900/50 text-cyan-400 border border-cyan-400 hover:bg-cyan-400 hover:text-black text-sm uppercase font-bold"
+                                        className="px-3 py-2 bg-theme-dim text-theme border border-theme hover:bg-theme hover:text-black text-sm uppercase font-bold"
                                     >
                                         RESET
                                     </button>

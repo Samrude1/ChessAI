@@ -83,30 +83,36 @@ const Chessboard: React.FC<ChessboardProps> = ({ game, onMove, orientation }) =>
                 const isCheck = game.inCheck() && piece?.type === 'k' && piece?.color === game.turn();
                 const isCapture = isPossibleMove && piece;
 
-                // Theme: Phosphor Blue & Black
-                // Light squares = Dark Blue-Grey (#0a1f29)
-                // Dark squares = Pure Black (#000)
-                const bgClass = isLightSquare ? 'bg-[#0a1f29]' : 'bg-black';
+
+                // Light squares use theme color, dark squares are black
+                const bgClass = !isLightSquare ? 'bg-black' : '';
 
                 cols.push(
                     <div
                         key={squareName}
                         onClick={() => handleSquareClick(squareName)}
                         className={`w-full h-full flex items-center justify-center relative select-none
-                            ${bgClass} border-[0.5px] border-[#80dfff]/10
-                            ${isCheck ? 'bg-blue-600/50 animate-pulse border-2 border-cyan-400' : ''}`}
+                            ${!isLightSquare ? 'bg-black' : ''}
+                            ${isCheck ? 'animate-pulse border-2 border-theme' : ''}`}
                     >
-                        {/* Rank/File Labels */}
-                        {orientation === 'w' && c === 0 && <span className={`absolute top-0.5 left-0.5 text-[6px] sm:text-[8px] font-bold ${isLightSquare ? 'text-black/40' : 'text-[#80dfff]/60'}`}>{rankChar}</span>}
-                        {orientation === 'w' && r === 7 && <span className={`absolute bottom-0.5 right-0.5 text-[6px] sm:text-[8px] font-bold ${isLightSquare ? 'text-black/40' : 'text-[#80dfff]/60'}`}>{fileChar}</span>}
-                        {orientation === 'b' && c === 0 && <span className={`absolute top-0.5 left-0.5 text-[6px] sm:text-[8px] font-bold ${isLightSquare ? 'text-black/40' : 'text-[#80dfff]/60'}`}>{rankChar}</span>}
-                        {orientation === 'b' && r === 7 && <span className={`absolute bottom-0.5 right-0.5 text-[6px] sm:text-[8px] font-bold ${isLightSquare ? 'text-black/40' : 'text-[#80dfff]/60'}`}>{fileChar}</span>}
+                        {/* Light square background - as a separate layer */}
+                        {isLightSquare && !isCheck && <div className="absolute inset-0 bg-theme-square-light pointer-events-none z-0"></div>}
 
-                        {/* Highlight Last Move */}
-                        {isLastMove && <div className="absolute inset-0 bg-[#80dfff]/20 border border-[#80dfff]"></div>}
+                        {/* Check state background */}
+                        {isCheck && <div className="absolute inset-0 bg-theme-check pointer-events-none z-0"></div>}
+
+                        {/* Highlight Last Move - Corner Dots */}
+                        {isLastMove && (
+                            <>
+                                <div className="absolute top-0.5 left-0.5 w-1.5 h-1.5 bg-theme rounded-full opacity-60 z-[1]"></div>
+                                <div className="absolute top-0.5 right-0.5 w-1.5 h-1.5 bg-theme rounded-full opacity-60 z-[1]"></div>
+                                <div className="absolute bottom-0.5 left-0.5 w-1.5 h-1.5 bg-theme rounded-full opacity-60 z-[1]"></div>
+                                <div className="absolute bottom-0.5 right-0.5 w-1.5 h-1.5 bg-theme rounded-full opacity-60 z-[1]"></div>
+                            </>
+                        )}
 
                         {/* Highlight Selection */}
-                        {isSelected && <div className="absolute inset-0 bg-[#80dfff]/30 border-2 border-[#80dfff]"></div>}
+                        {isSelected && <div className="absolute inset-0 border-2 border-theme bg-theme-highlight-strong z-[2]"></div>}
 
                         {/* Piece */}
                         <div
@@ -117,11 +123,11 @@ const Chessboard: React.FC<ChessboardProps> = ({ game, onMove, orientation }) =>
 
                         {/* Move Indicators */}
                         {isPossibleMove && !isCapture && (
-                            <div className="absolute w-3 h-3 bg-[#80dfff] rounded-sm z-20 shadow-[0_0_8px_#80dfff] opacity-80"></div>
+                            <div className="absolute w-3 h-3 rounded-sm z-20 opacity-80" style={{ backgroundColor: 'var(--terminal-blue)', boxShadow: '0 0 8px var(--terminal-blue)' }}></div>
                         )}
                         {isCapture && (
-                            <div className="absolute inset-0 border-4 border-[#80dfff] z-20">
-                                <div className="absolute top-0 right-0 text-base font-bold bg-[#80dfff] text-black px-1 tracking-wider">TARGET</div>
+                            <div className="absolute inset-0 border-4 border-theme z-20">
+                                <div className="absolute top-0 right-0 text-base font-bold text-black px-1 tracking-wider" style={{ backgroundColor: 'var(--terminal-blue)' }}>TARGET</div>
                             </div>
                         )}
                     </div>
@@ -133,7 +139,7 @@ const Chessboard: React.FC<ChessboardProps> = ({ game, onMove, orientation }) =>
     }
 
     return (
-        <div className="flex flex-col w-full h-full border-4 border-[#80dfff]/30 shadow-[0_0_15px_rgba(128,223,255,0.2)]">
+        <div className="flex flex-col w-full h-full border-4" style={{ borderColor: 'color-mix(in srgb, var(--terminal-blue) 30%, transparent)', boxShadow: '0 0 15px color-mix(in srgb, var(--terminal-blue) 20%, transparent)' }}>
             {renderGrid()}
         </div>
     );

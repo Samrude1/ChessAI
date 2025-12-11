@@ -7,8 +7,9 @@ const PIECE_STYLE: React.CSSProperties = {
   shapeRendering: 'geometricPrecision' // Switched from crispEdges for smoother curves at higher res
 };
 
-// Theme Colors
-const THEME_COLOR = "#80dfff";
+
+// Theme Colors - Use CSS variable for dynamic theming
+const THEME_COLOR = "var(--terminal-blue)";
 const BG_FILL = "#000";
 
 export const PIECE_COMPONENTS: { [key: string]: React.ReactElement } = {

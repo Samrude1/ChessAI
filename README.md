@@ -24,10 +24,11 @@ A retro-futuristic chess game featuring **Yes Man** from Fallout: New Vegas as y
 - **Skill Range 0-20** - Fine-tune AI strength to your level
 
 ### 🎨 Retro Terminal Aesthetic
-- **Blue CRT Theme** - Authentic terminal green/blue color scheme
+- **Customizable Theme** - Choose any color via hue slider (0-360°) or use presets (Blue/Green/Red)
+- **Authentic CRT Effects** - Scanlines, screen curvature, random glitches, and distortion
 - **Pixelated Yes Man Face** - Retro pixel-art style with expressive animations
-- **Scanline Effects** - Classic CRT monitor look
-- **Terminal Sounds** - Immersive audio feedback
+- **Monochrome Design** - True single-color terminal aesthetic
+- **Persistent Theme** - Your color choice is saved between sessions
 
 ### 🎯 AI Commentary & Awareness
 - **Human-Like Commentary**: Optimized for natural, short conversational responses (max 15 words) with genuine emotion.
@@ -123,9 +124,26 @@ gemini-chess-commentary/
 ## 🎨 Customization
 
 ### Color Theme
-The entire UI uses a blue/cyan terminal theme. Colors are defined in:
+The UI features a **customizable monochrome terminal theme**:
+- **Hue Slider** - Choose any color from 0-360° on the start menu
+- **Preset Themes** - Blue (default), Green, Red
+- **Persistent** - Your theme choice is saved to localStorage
+- **Dynamic** - All UI elements update instantly with theme changes
+
+Theme colors are defined in:
 - `tailwind.config.js` - Theme colors
-- `index.css` - CSS variables
+- `index.css` - CSS variables (`--terminal-blue`, `--terminal-rgb`)
+- `components/GameStartModal.tsx` - Theme selector
+
+### CRT Monitor Effects
+Authentic retro CRT monitor effects:
+- **Scanlines** - Horizontal scan lines overlay
+- **Screen Curvature** - Subtle vignette effect
+- **Random Glitches** - Occasional screen shake (every ~25s)
+- **Distortion** - Periodic blur/contrast shifts (every ~30s)
+- **Noise** - Animated static overlay
+
+Adjust effect intensity in `index.html` CSS animations.
 
 ### AI Personality
 Modify Yes Man's personality in `services/geminiService.ts`:
@@ -135,7 +153,7 @@ Modify Yes Man's personality in `services/geminiService.ts`:
 
 ### Difficulty Levels
 Adjust AI strength in `components/GameStartModal.tsx`:
-- Modify skill level ranges
+- Modify skill level ranges (1-20)
 - Change difficulty labels
 
 ## 🐛 Known Issues
