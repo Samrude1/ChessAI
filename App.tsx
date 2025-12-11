@@ -83,7 +83,9 @@ const App: React.FC = () => {
         if (isBotThinking || isCommentaryLoading) return 'thinking';
 
         if (game.isCheckmate()) {
-            return game.turn() === playerColor ? 'defeated' : 'excited';
+            // If it's player's turn, player lost (Yes Man Won) -> Excited/Confident
+            // If it's bot's turn, bot lost (Player Won) -> Defeated
+            return game.turn() === playerColor ? 'excited' : 'defeated';
         }
 
         if (game.inCheck()) return 'excited';
@@ -144,7 +146,13 @@ const App: React.FC = () => {
     const decideOnCommentary = (move: Move): { shouldComment: boolean; reason: string } => {
         // YesMan is a chess expert robot - only comments on tactically important moves
 
-        if (gameRef.current.isCheckmate()) return { shouldComment: true, reason: 'Game over: Checkmate.' };
+        if (gameRef.current.isCheckmate()) {
+            const loser = gameRef.current.turn() === playerColor ? 'User' : 'Yes Man';
+            const reason = loser === 'User'
+                ? 'Game Over: You (Yes Man) WON! The user lost.'
+                : 'Game Over: You (Yes Man) LOST! The user won.';
+            return { shouldComment: true, reason };
+        }
         if (gameRef.current.isDraw()) return { shouldComment: true, reason: 'Game over: Draw.' };
 
         // Check - Always important

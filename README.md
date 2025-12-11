@@ -29,7 +29,12 @@ A retro-futuristic chess game featuring **Yes Man** from Fallout: New Vegas as y
 - **Scanline Effects** - Classic CRT monitor look
 - **Terminal Sounds** - Immersive audio feedback
 
-### 🎯 Gameplay Features
+### 🎯 AI Commentary & Awareness
+- **Human-Like Commentary**: Optimized for natural, short conversational responses (max 15 words) with genuine emotion.
+- **Context Awareness**: Smarter checkmate detection (knows when it wins vs. loses) and tactical awareness.
+- **Mood System**: Face and tone change dynamically based on game state (Confident, Worried, Desperate, etc.).
+
+### 🎮 Gameplay Features
 - **Move Validation** - Legal moves only, powered by chess.js
 - **Move Highlighting** - Visual indicators for selected pieces and possible moves
 - **Captured Pieces Display** - Track material advantage
