@@ -85,13 +85,28 @@ const getOfflineResponse = (mood: Mood): string => {
     return responses[randomIndex];
 };
 
+// Helper to determine if we should comment in offline mode
+const getOfflineCommentaryWithProbability = async (context: CommentaryContext): Promise<string> => {
+    // filter comments to prevent spamming canned responses
+    // Always comment on checks, mates, and captures
+    const isImportant = context.isCheck || context.isCheckmate || context.capturedPiece;
+
+    // For normal moves, only comment 20% of the time
+    if (!isImportant && Math.random() > 0.2) {
+        return "";
+    }
+
+    return getOfflineResponse(context.mood);
+};
+
 export async function getAiCommentary(context: CommentaryContext): Promise<string> {
     // --- OFFLINE MODE CHECK ---
     if (!ai) {
-        // Simulate network delay for realism (500ms - 1500ms)
+        // Simulate network delay for realism
         const delay = 500 + Math.random() * 1000;
         await new Promise(resolve => setTimeout(resolve, delay));
-        return getOfflineResponse(context.mood);
+
+        return getOfflineCommentaryWithProbability(context);
     }
 
     // --- ONLINE MODE (GEMINI AI) ---
@@ -211,6 +226,7 @@ RESPONSE GUIDELINES:
 - DON'T give formal move analysis
 - DO show appropriate emotion for your mood
 - ${mood === 'desperate' || mood === 'worried' ? 'DO include occasional robot glitch sounds' : ''}
+- NEVER use emojis (graphic symbols). Use text-based emoticons only if absolutely necessary, but prefer words.
 
 Respond as Yes Man:`;
 
@@ -222,7 +238,8 @@ Respond as Yes Man:`;
 
         const text = response.text;
         if (text) {
-            return text.trim();
+            // Remove any emojis just in case
+            return text.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}]/gu, '').trim();
         } else {
             return "This is going great! I'm just so happy to be here watching you play! *happy beep*";
         }
@@ -230,6 +247,6 @@ Respond as Yes Man:`;
     } catch (error: any) {
         console.error("Error generating commentary:", error);
         // Fallback to offline library if API fails unexpectedly
-        return getOfflineResponse(context.mood);
+        return getOfflineCommentaryWithProbability(context);
     }
 }

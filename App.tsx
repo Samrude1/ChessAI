@@ -153,10 +153,13 @@ const App: React.FC = () => {
                 materialAdvantage
             };
 
+
             const comment = await getAiCommentary(context);
 
-            setCommentaries(prev => [...prev, { moveNumber, player: playerType, move: lastMove, comment }]);
-            soundEngine.playComputerProcessing();
+            if (comment) {
+                setCommentaries(prev => [...prev, { moveNumber, player: playerType, move: lastMove, comment }]);
+                soundEngine.playComputerProcessing();
+            }
         } catch (error) {
             console.error("Error fetching commentary:", error);
         } finally {

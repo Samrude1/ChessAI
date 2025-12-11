@@ -41,12 +41,12 @@ const AICommentary: React.FC<AICommentaryProps> = ({ commentaries, isLoading, is
             // Scroll to bottom when new messages arrive
             containerRef.current.scrollTop = containerRef.current.scrollHeight;
         }
-    }, [commentaries, isLoading, isBotThinking]);
+    }, [commentaries]);
 
     return (
         <div className="flex flex-col h-full font-mono text-xl leading-relaxed relative min-h-0 bg-black">
             {/* Header with Giant Face - The 'Monitor' */}
-            <div className="flex flex-col items-center justify-center py-2 lg:py-6 border-b-4 border-theme bg-[#000508] shrink-0 relative overflow-hidden group">
+            <div className="flex flex-col items-center justify-center border-b-4 border-theme bg-[#000508] shrink-0 relative overflow-hidden group h-[40%] min-h-[40%] max-h-[40%] w-full">
 
                 {/* Decorative background grid for the 'monitor' area */}
                 <div className="absolute inset-0 opacity-10 pointer-events-none"
@@ -56,7 +56,7 @@ const AICommentary: React.FC<AICommentaryProps> = ({ commentaries, isLoading, is
                     }}>
                 </div>
 
-                <div className={`relative z-10 transition-all duration-500 ${mood === 'confident' ? 'scale-110' :
+                <div className={`relative z-10 transition-all duration-500 flex-shrink-0 mb-4 ${mood === 'confident' ? 'scale-110' :
                     mood === 'worried' ? 'animate-pulse' :
                         mood === 'desperate' ? 'animate-bounce' :
                             mood === 'excited' ? 'scale-105 animate-pulse' :
@@ -73,24 +73,39 @@ const AICommentary: React.FC<AICommentaryProps> = ({ commentaries, isLoading, is
                     {/* The Face Itself - MUCH BIGGER for dramatic presence */}
                     <YesManFace
                         mood={mood}
-                        className="w-40 h-40 lg:w-72 lg:h-72 xl:w-96 xl:h-96 text-theme"
+                        className="w-24 h-24 lg:w-48 lg:h-48 xl:w-56 xl:h-56 text-theme"
                     />
                 </div>
 
-                <div className="z-10 text-center mt-2 lg:mt-4">
+                <div className="z-10 text-center w-full flex-shrink-0">
                     <h2 className="text-2xl lg:text-4xl font-bold glow-text tracking-widest uppercase">YES MAN v2.1</h2>
-                    <div className="flex items-center justify-center gap-3 mt-1">
+                    <div className="flex items-center justify-center gap-3 mt-1 h-6 lg:h-8">
                         <span className={`h-2 w-2 lg:h-3 lg:w-3 rounded-full ${isBotThinking ? 'bg-theme animate-ping' : 'bg-theme animate-pulse'}`}></span>
-                        <span className="text-base lg:text-lg opacity-90 tracking-[0.3em] font-bold text-theme shadow-black drop-shadow-md">
+                        <span className="text-base lg:text-lg opacity-90 tracking-[0.3em] font-bold text-theme shadow-black drop-shadow-md whitespace-nowrap">
                             {isBotThinking ? "PROCESSING..." : "SYSTEM ONLINE"}
                         </span>
                     </div>
 
                     {/* Mood Indicator with personality */}
-                    <div className="mt-2">
-                        <span className="text-base lg:text-lg opacity-70 text-theme uppercase tracking-wider">
+                    <div className="mt-2 h-6 lg:h-8">
+                        <span className="text-base lg:text-lg opacity-70 text-theme uppercase tracking-wider block">
                             Mindset: <span className={`font-bold opacity-90 text-theme`}>{getMoodLabel(mood)}</span>
                         </span>
+                    </div>
+
+                    {/* Status Messages - Fixed height container to prevent layout shift */}
+                    <div className="mt-2 h-8 w-full flex items-center justify-center overflow-hidden">
+                        {isLoading ? (
+                            <div className="flex items-center justify-center text-theme text-sm lg:text-base font-bold w-full px-4">
+                                <Spinner />
+                                <span className="ml-3 truncate">GENERATING RESPONSE...</span>
+                            </div>
+                        ) : isBotThinking ? (
+                            <div className="flex items-center justify-center text-theme animate-pulse text-sm lg:text-base font-bold w-full px-4">
+                                <span className="mr-2">&gt;</span>
+                                <span className="opacity-80 truncate">ANALYZING BOARD STATE...</span>
+                            </div>
+                        ) : null}
                     </div>
                 </div>
             </div>
@@ -119,20 +134,6 @@ const AICommentary: React.FC<AICommentaryProps> = ({ commentaries, isLoading, is
                         </div>
                     </div>
                 ))}
-
-                {isBotThinking && (
-                    <div className="flex items-center text-theme animate-pulse text-lg lg:text-xl font-bold pl-4">
-                        <span className="mr-2">&gt;</span>
-                        <span className="opacity-80">ANALYZING BOARD STATE...</span>
-                    </div>
-                )}
-
-                {isLoading && (
-                    <div className="flex items-center text-theme mt-4 text-lg lg:text-xl font-bold pl-4">
-                        <Spinner />
-                        <span className="ml-3">GENERATING RESPONSE...</span>
-                    </div>
-                )}
             </div>
         </div>
     );
