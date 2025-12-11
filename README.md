@@ -1,15 +1,22 @@
 # Yes Man Chess Terminal
 
-A retro-futuristic chess game featuring **Yes Man** from Fallout: New Vegas as your AI opponent, with a blue terminal aesthetic and dramatic personality-driven commentary.
+A retro-futuristic chess game with AI-powered commentary, customizable themes, and authentic CRT monitor effects.
+
+> **Note**: This project uses [Stockfish](https://stockfishchess.org/) chess engine (GPL-3.0). See [Stockfish Attribution](docs/STOCKFISH_ATTRIBUTION.md) for details.
 
 ![Yes Man Chess](https://img.shields.io/badge/Chess-AI%20Powered-80dfff?style=for-the-badge)
-![Fallout Theme](https://img.shields.io/badge/Theme-Fallout-80dfff?style=for-the-badge)
+![Stockfish](https://img.shields.io/badge/Engine-Stockfish%2016.1-80dfff?style=for-the-badge)
 ![React](https://img.shields.io/badge/React-18-80dfff?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-80dfff?style=for-the-badge)
 
 ## 🎮 Features
 
 ### 🤖 Yes Man AI Opponent
 - **Personality-Driven Commentary** - Yes Man reacts to every move with his characteristic cheerful, overly-helpful personality
+- **Dual Modes**:
+  - **Online Mode** (requires API Key): Real-time generative commentary powered by Google Gemini.
+  - **Offline/Demo Mode**: Fully playable without an API key using a library of character-specific responses.
+- **Context Awareness** - Reacts to checks, captures, and material changes.
 - **Dynamic Moods** - Face and commentary change based on game state:
   - 😎 **Confident** - Winning position
   - 😊 **Happy** - Neutral game
@@ -19,16 +26,15 @@ A retro-futuristic chess game featuring **Yes Man** from Fallout: New Vegas as y
   - 🎉 **Excited** - Check or critical moments
 
 ### ♟️ Adjustable Difficulty
-- **6 Difficulty Levels**: Beginner → Intermediate → Advanced → Master
+- **4 Difficulty Levels**: Beginner → Intermediate → Advanced → Master
 - **Powered by Stockfish** - Professional-grade chess engine
 - **Skill Range 0-20** - Fine-tune AI strength to your level
 
 ### 🎨 Retro Terminal Aesthetic
-- **Customizable Theme** - Choose any color via hue slider (0-360°) or use presets (Blue/Green/Red)
+- **Customizable Theme** - Choose any color via hue slider (0-360°)
 - **Authentic CRT Effects** - Scanlines, screen curvature, random glitches, and distortion
 - **Pixelated Yes Man Face** - Retro pixel-art style with expressive animations
 - **Monochrome Design** - True single-color terminal aesthetic
-- **Persistent Theme** - Your color choice is saved between sessions
 
 ### 🎯 AI Commentary & Awareness
 - **Human-Like Commentary**: Optimized for natural, short conversational responses (max 15 words) with genuine emotion.
@@ -42,7 +48,13 @@ A retro-futuristic chess game featuring **Yes Man** from Fallout: New Vegas as y
 - **Move History** - Full game notation
 - **Resign Option** - Concede when needed
 
-## 🚀 Getting Started
+## � Documentation
+
+- **[User Guide](docs/USER_GUIDE.md)** - Complete guide to playing and customizing the game
+- **[Stockfish Attribution](docs/STOCKFISH_ATTRIBUTION.md)** - Chess engine credits and licensing
+- **[Future Roadmap](docs/future_roadmap.md)** - Planned features and improvements
+
+## �🚀 Getting Started
 
 ### Prerequisites
 - Node.js 16+
@@ -68,7 +80,7 @@ cp .env.example .env.local
 Create a `.env.local` file:
 
 ```env
-VITE_GEMINI_API_KEY=your_gemini_api_key_here
+GEMINI_API_KEY=your_gemini_api_key_here
 ```
 
 ### Running the Game
@@ -126,14 +138,7 @@ gemini-chess-commentary/
 ### Color Theme
 The UI features a **customizable monochrome terminal theme**:
 - **Hue Slider** - Choose any color from 0-360° on the start menu
-- **Preset Themes** - Blue (default), Green, Red
-- **Persistent** - Your theme choice is saved to localStorage
 - **Dynamic** - All UI elements update instantly with theme changes
-
-Theme colors are defined in:
-- `tailwind.config.js` - Theme colors
-- `index.css` - CSS variables (`--terminal-blue`, `--terminal-rgb`)
-- `components/GameStartModal.tsx` - Theme selector
 
 ### CRT Monitor Effects
 Authentic retro CRT monitor effects:
@@ -165,12 +170,28 @@ Adjust AI strength in `components/GameStartModal.tsx`:
 
 This project is open source and available under the MIT License.
 
-## 🙏 Credits
+## 🙏 Credits & Attribution
 
-- **Yes Man Character** - Fallout: New Vegas (Bethesda/Obsidian)
-- **Chess Engine** - Stockfish
-- **AI Commentary** - Google Gemini
-- **Chess Logic** - chess.js library
+### Chess Engine
+This project uses **[Stockfish](https://stockfishchess.org/)** - one of the strongest open-source chess engines in the world.
+
+- **License**: GNU General Public License v3.0 (GPL-3.0)
+- **Version**: 16.1 (WASM build)
+- **Repository**: https://github.com/official-stockfish/Stockfish
+- **Full Attribution**: See [docs/STOCKFISH_ATTRIBUTION.md](docs/STOCKFISH_ATTRIBUTION.md)
+
+**Important**: Stockfish is NOT owned by this project. It is developed and maintained by the Stockfish team. This project uses the official pre-compiled WebAssembly build without modifications.
+
+### Other Technologies
+- **AI Commentary** - [Google Gemini API](https://ai.google.dev/)
+- **Chess Logic** - [chess.js](https://github.com/jhlywa/chess.js)
+- **UI Framework** - [React 18](https://react.dev/)
+- **Styling** - [Tailwind CSS](https://tailwindcss.com/)
+- **Build Tool** - [Vite](https://vitejs.dev/)
+
+### Inspiration
+- **Yes Man Character** - Fallout: New Vegas (Bethesda/Obsidian Entertainment)
+- **Retro Terminal Aesthetic** - Classic CRT monitors and vintage computing
 
 ## 🎯 Future Enhancements
 

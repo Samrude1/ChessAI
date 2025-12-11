@@ -7,7 +7,7 @@ import MoveHistory from './components/MoveHistory';
 import CapturedPieces from './components/CapturedPieces';
 import GameStartModal from './components/GameStartModal';
 import { findBestMove, setSkillLevel } from './services/chessEngine';
-import { getAiCommentary } from './services/geminiService';
+import { getAiCommentary, CommentaryContext } from './services/geminiService';
 import { soundEngine } from './services/soundService';
 import type { Commentary, Mood } from './types';
 
@@ -121,7 +121,7 @@ const App: React.FC = () => {
         setSkillLevel(skillLevel);
     };
 
-    const fetchCommentary = useCallback(async (pgn: string, lastMove: string, reason: string) => {
+    const fetchCommentary = useCallback(async (pgn: string, lastMove: string, reason: string, capturedPiece?: string) => {
         if (!playerColor) return;
 
         activeCommentaryRequests.current += 1;
@@ -135,7 +135,25 @@ const App: React.FC = () => {
             const playerType = justMovedColor === playerColor ? 'Human' : 'Bot';
 
             const currentMood = getMood();
-            const comment = await getAiCommentary(pgn, lastMove, reason, playerType, playerColor, currentMood);
+            const materialAdvantage = evaluateMaterial(playerColor);
+            const isCheck = gameRef.current.inCheck();
+            const isCheckmate = gameRef.current.isCheckmate();
+
+            const context: CommentaryContext = {
+                pgn,
+                lastMove,
+                reason,
+                whoMoved: playerType,
+                playerColor,
+                mood: currentMood,
+                moveNumber,
+                capturedPiece,
+                isCheck,
+                isCheckmate,
+                materialAdvantage
+            };
+
+            const comment = await getAiCommentary(context);
 
             setCommentaries(prev => [...prev, { moveNumber, player: playerType, move: lastMove, comment }]);
             soundEngine.playComputerProcessing();
@@ -219,7 +237,7 @@ const App: React.FC = () => {
                         updateStatus();
                         const decision = decideOnCommentary(result);
                         if (decision.shouldComment) {
-                            fetchCommentary(gameInstance.pgn(), result.san, decision.reason);
+                            fetchCommentary(gameInstance.pgn(), result.san, decision.reason, result.captured);
                             // Don't set isBotThinking to false - let commentary loading handle it
                         } else {
                             // Only set false if no commentary is being generated
@@ -258,7 +276,7 @@ const App: React.FC = () => {
 
             const decision = decideOnCommentary(result);
             if (decision.shouldComment) {
-                fetchCommentary(game.pgn(), result.san, decision.reason);
+                fetchCommentary(game.pgn(), result.san, decision.reason, result.captured);
             }
             return true;
         } catch (e) {
@@ -389,7 +407,7 @@ const App: React.FC = () => {
                                     a.click();
                                     URL.revokeObjectURL(url);
                                 }}
-                                className="text-xl text-theme hover:text-[#b3ecff] hover:underline decoration-dashed uppercase font-bold"
+                                className="text-xl text-theme hover:bg-theme-dim hover:shadow-theme hover:underline decoration-dashed uppercase font-bold transition-all px-2 py-1"
                             >
                                 [ DOWNLOAD PGN ]
                             </button>
@@ -402,13 +420,13 @@ const App: React.FC = () => {
                                     }
                                 }}
                                 disabled={gameOver}
-                                className={`text-xl ${gameOver ? 'text-theme/30 cursor-not-allowed' : 'text-theme hover:text-[#b3ecff]'} hover:underline decoration-dashed uppercase font-bold`}
+                                className={`text-xl ${gameOver ? 'text-theme/30 cursor-not-allowed' : 'text-theme hover:bg-theme-dim hover:shadow-theme'} hover:underline decoration-dashed uppercase font-bold transition-all px-2 py-1`}
                             >
                                 [ RESIGN ]
                             </button>
                             <button
                                 onClick={() => setPlayerColor(null)}
-                                className="text-2xl text-theme hover:text-[#b3ecff] hover:underline decoration-dashed uppercase font-bold"
+                                className="text-2xl text-theme hover:bg-theme-dim hover:shadow-theme hover:underline decoration-dashed uppercase font-bold transition-all px-2 py-1"
                             >
                                 [ ABORT SIMULATION ]
                             </button>
