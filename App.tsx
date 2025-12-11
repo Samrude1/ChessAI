@@ -310,133 +310,129 @@ const App: React.FC = () => {
             <div className="crt-curve"></div>
             <div className="crt-glitch"></div>
 
-            {!playerColor && <GameStartModal onSelectSide={startGame} />}
+            {!playerColor ? (
+                <GameStartModal onSelectSide={startGame} />
+            ) : (
+                <div className="layout-force-row flex-1 w-full h-full p-2 sm:p-4 flex flex-row gap-2 lg:gap-4 relative z-10 overflow-hidden mx-auto">
 
-            <div className="flex-1 w-full h-full p-2 sm:p-4 flex flex-col lg:flex-row gap-2 lg:gap-4 relative z-10 overflow-hidden max-w-[1800px] mx-auto">
-
-                {/* LEFT COLUMN: Data Log (Desktop) */}
-                <aside className="hidden lg:flex flex-col lg:w-64 xl:w-80 gap-4 h-full overflow-hidden shrink-0">
-                    <div className="terminal-border flex-1 flex flex-col p-3 bg-black min-h-0">
-                        <div className="border-b-2 border-theme mb-2 pb-2">
-                            <h2 className="text-2xl font-bold tracking-widest glow-text">DATA LOG</h2>
+                    {/* LEFT COLUMN: Data Log (Desktop) */}
+                    <aside className="layout-col-fixed flex flex-col w-64 xl:w-80 gap-4 h-full overflow-hidden shrink-0">
+                        <div className="terminal-border flex-1 flex flex-col p-3 bg-black min-h-0">
+                            <div className="border-b-2 border-theme mb-2 pb-2">
+                                <h2 className="text-2xl font-bold tracking-widest glow-text">DATA LOG</h2>
+                            </div>
+                            <MoveHistory game={game} />
                         </div>
-                        <MoveHistory game={game} />
-                    </div>
-                    <div className="terminal-border p-4 bg-black shrink-0">
-                        <h2 className="text-xl font-bold border-b border-theme mb-3 pb-1 tracking-widest uppercase text-theme">Casualties</h2>
-                        <CapturedPieces game={game} playerColor={playerColor || 'w'} />
-                    </div>
-                </aside>
+                        <div className="terminal-border p-4 bg-black shrink-0">
+                            <h2 className="text-xl font-bold border-b border-theme mb-3 pb-1 tracking-widest uppercase text-theme">Casualties</h2>
+                            <CapturedPieces game={game} playerColor={playerColor || 'w'} />
+                        </div>
+                    </aside>
 
-                {/* CENTER: Chessboard */}
-                {/* min-w-0 and flex-1 allows this to shrink/grow as needed, but we give it priority on mobile */}
-                <main className="flex-1 flex flex-col min-h-0 min-w-0">
-                    <header className="lg:hidden w-full flex justify-between items-center mb-2 px-2 border-b-2 border-theme pb-2 bg-black shrink-0">
-                        <h1 className="text-2xl font-bold glow-text">ROBCO CHESS</h1>
-                        <div className="text-lg bg-theme-dim text-theme px-2 py-1 font-bold border border-theme">{status}</div>
-                    </header>
+                    {/* CENTER: Chessboard */}
+                    <main className="layout-col-fluid flex-1 flex flex-col min-h-0 min-w-[600px]">
+                        <header className="hidden w-full flex justify-between items-center mb-2 px-2 border-b-2 border-theme pb-2 bg-black shrink-0">
+                            <h1 className="text-2xl font-bold glow-text">ROBCO CHESS</h1>
+                            <div className="text-lg bg-theme-dim text-theme px-2 py-1 font-bold border border-theme">{status}</div>
+                        </header>
 
-                    <div className="flex-1 flex items-center justify-center min-h-0 min-w-0 p-1 overflow-hidden">
-                        {/* 
+                        <div className="flex-1 flex items-center justify-center min-h-0 min-w-0 p-1 overflow-hidden">
+                            {/* 
                             Board Container:
                             Using aspect-square, max-h-full, and max-w-full ensures it fits within 
                             whichever dimension is tighter (width or height), preventing overlap.
                         */}
-                        <div className="relative terminal-border bg-black p-2 aspect-square max-h-full max-w-full flex items-center justify-center">
-                            {/* Decorative 'bolts' */}
-                            <div className="absolute top-1 left-1 w-2 h-2 bg-theme-dim rounded-full"></div>
-                            <div className="absolute top-1 right-1 w-2 h-2 bg-theme-dim rounded-full"></div>
-                            <div className="absolute bottom-1 left-1 w-2 h-2 bg-theme-dim rounded-full"></div>
-                            <div className="absolute bottom-1 right-1 w-2 h-2 bg-theme-dim rounded-full"></div>
+                            <div className="relative terminal-border bg-black p-2 aspect-square max-h-full max-w-full flex items-center justify-center">
+                                {/* Decorative 'bolts' */}
+                                <div className="absolute top-1 left-1 w-2 h-2 bg-theme-dim rounded-full"></div>
+                                <div className="absolute top-1 right-1 w-2 h-2 bg-theme-dim rounded-full"></div>
+                                <div className="absolute bottom-1 left-1 w-2 h-2 bg-theme-dim rounded-full"></div>
+                                <div className="absolute bottom-1 right-1 w-2 h-2 bg-theme-dim rounded-full"></div>
 
-                            <div className="w-full h-full relative">
-                                <Chessboard
-                                    game={game}
-                                    onMove={handlePlayerMove}
-                                    orientation={playerColor || 'w'}
-                                />
+                                <div className="w-full h-full relative">
+                                    <Chessboard
+                                        game={game}
+                                        onMove={handlePlayerMove}
+                                        orientation={playerColor || 'w'}
+                                    />
 
-                                {gameOver && (
-                                    <div className="absolute inset-0 z-50 bg-black/90 flex flex-col items-center justify-center border-4 border-theme">
-                                        <h2 className="text-4xl sm:text-5xl font-bold text-theme mb-4 glow-text text-center px-4 tracking-widest">
-                                            GAME OVER
-                                        </h2>
-                                        <p className="mb-8 text-theme text-xl sm:text-2xl font-mono text-center px-4 glow-text">{status}</p>
-                                        <button
-                                            onClick={() => setPlayerColor(null)}
-                                            className="px-6 py-3 sm:px-8 sm:py-4 bg-theme-dim text-theme font-bold text-xl sm:text-2xl hover:bg-theme hover:text-black border-2 border-theme uppercase tracking-wider transition-colors"
-                                        >
-                                            Reboot System
-                                        </button>
-                                    </div>
-                                )}
+                                    {gameOver && (
+                                        <div className="absolute inset-0 z-50 bg-black/90 flex flex-col items-center justify-center border-4 border-theme">
+                                            <h2 className="text-4xl sm:text-5xl font-bold text-theme mb-4 glow-text text-center px-4 tracking-widest">
+                                                GAME OVER
+                                            </h2>
+                                            <p className="mb-8 text-theme text-xl sm:text-2xl font-mono text-center px-4 glow-text">{status}</p>
+                                            <button
+                                                onClick={() => setPlayerColor(null)}
+                                                className="px-6 py-3 sm:px-8 sm:py-4 bg-theme-dim text-theme font-bold text-xl sm:text-2xl hover:bg-theme hover:text-black border-2 border-theme uppercase tracking-wider transition-colors"
+                                            >
+                                                Reboot System
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    {/* Mobile Status / Captured */}
-                    <div className="lg:hidden w-full mt-2 terminal-border p-2 bg-black shrink-0">
-                        <CapturedPieces game={game} playerColor={playerColor || 'w'} />
-                    </div>
-                </main>
-
-                {/* RIGHT COLUMN: AI Commentary */}
-                {/* 
-                   Mobile: h-[35vh] (Fixed height to prevent growing indefinitely)
-                   Desktop: h-auto (Fills remaining height if needed, or flex-grown by parent)
-                   INCREASED WIDTH: Making AI more prominent like a real opponent
-                */}
-                <aside className="flex flex-col w-full lg:w-96 xl:w-[28rem] lg:h-full gap-4 shrink-0 h-[35vh] lg:h-auto lg:min-h-0">
-                    <div className="terminal-border flex-1 flex flex-col p-4 bg-black relative overflow-hidden h-full min-h-0">
-                        <AICommentary
-                            commentaries={commentaries}
-                            isLoading={isCommentaryLoading}
-                            isBotThinking={isBotThinking}
-                            mood={getMood()}
-                        />
-                    </div>
-
-                    <div className="hidden lg:block terminal-border p-4 text-center bg-black shrink-0">
-                        <p className="text-theme font-bold tracking-widest animate-pulse text-2xl">{status}</p>
-                        <div className="flex flex-col gap-2 mt-4">
-                            <button
-                                onClick={() => {
-                                    const pgn = game.pgn();
-                                    const blob = new Blob([pgn], { type: 'text/plain' });
-                                    const url = URL.createObjectURL(blob);
-                                    const a = document.createElement('a');
-                                    a.href = url;
-                                    a.download = `chess-game-${Date.now()}.pgn`;
-                                    a.click();
-                                    URL.revokeObjectURL(url);
-                                }}
-                                className="text-xl text-theme hover:bg-theme-dim hover:shadow-theme hover:underline decoration-dashed uppercase font-bold transition-all px-2 py-1"
-                            >
-                                [ DOWNLOAD PGN ]
-                            </button>
-                            <button
-                                onClick={() => {
-                                    if (!gameOver) {
-                                        setGameOver(true);
-                                        setStatus("PLAYER RESIGNED. SECURITRON VICTORIOUS.");
-                                        soundEngine.playCheck();
-                                    }
-                                }}
-                                disabled={gameOver}
-                                className={`text-xl ${gameOver ? 'text-theme/30 cursor-not-allowed' : 'text-theme hover:bg-theme-dim hover:shadow-theme'} hover:underline decoration-dashed uppercase font-bold transition-all px-2 py-1`}
-                            >
-                                [ RESIGN ]
-                            </button>
-                            <button
-                                onClick={() => setPlayerColor(null)}
-                                className="text-2xl text-theme hover:bg-theme-dim hover:shadow-theme hover:underline decoration-dashed uppercase font-bold transition-all px-2 py-1"
-                            >
-                                [ ABORT SIMULATION ]
-                            </button>
+                        {/* Mobile Status / Captured */}
+                        <div className="hidden w-full mt-2 terminal-border p-2 bg-black shrink-0">
+                            <CapturedPieces game={game} playerColor={playerColor || 'w'} />
                         </div>
-                    </div>
-                </aside>
-            </div>
+                    </main>
+
+                    {/* RIGHT COLUMN: AI Commentary */}
+                    <aside className="layout-col-fixed flex flex-col w-96 xl:w-[28rem] h-full gap-4 shrink-0 min-h-0">
+                        <div className="terminal-border flex-1 flex flex-col p-4 bg-black relative overflow-hidden h-full min-h-0">
+                            <AICommentary
+                                commentaries={commentaries}
+                                isLoading={isCommentaryLoading}
+                                isBotThinking={isBotThinking}
+                                mood={getMood()}
+                            />
+                        </div>
+
+                        <div className="hidden lg:block terminal-border p-4 text-center bg-black shrink-0">
+                            <p className="text-theme font-bold tracking-widest animate-pulse text-2xl">{status}</p>
+                            <div className="flex flex-col gap-2 mt-4">
+                                <button
+                                    onClick={() => {
+                                        const pgn = game.pgn();
+                                        const blob = new Blob([pgn], { type: 'text/plain' });
+                                        const url = URL.createObjectURL(blob);
+                                        const a = document.createElement('a');
+                                        a.href = url;
+                                        a.download = `chess-game-${Date.now()}.pgn`;
+                                        a.click();
+                                        URL.revokeObjectURL(url);
+                                    }}
+                                    className="text-xl text-theme hover:bg-theme-dim hover:shadow-theme hover:underline decoration-dashed uppercase font-bold transition-all px-2 py-1"
+                                >
+                                    [ DOWNLOAD PGN ]
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        if (!gameOver) {
+                                            setGameOver(true);
+                                            setStatus("PLAYER RESIGNED. SECURITRON VICTORIOUS.");
+                                            soundEngine.playCheck();
+                                        }
+                                    }}
+                                    disabled={gameOver}
+                                    className={`text-xl ${gameOver ? 'text-theme/30 cursor-not-allowed' : 'text-theme hover:bg-theme-dim hover:shadow-theme'} hover:underline decoration-dashed uppercase font-bold transition-all px-2 py-1`}
+                                >
+                                    [ RESIGN ]
+                                </button>
+                                <button
+                                    onClick={() => setPlayerColor(null)}
+                                    className="text-2xl text-theme hover:bg-theme-dim hover:shadow-theme hover:underline decoration-dashed uppercase font-bold transition-all px-2 py-1"
+                                >
+                                    [ ABORT SIMULATION ]
+                                </button>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            )}
         </div>
     );
 };
