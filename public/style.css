@@ -857,6 +857,26 @@ button:focus-visible {
     .lg\:flex {
         display: flex !important;
     }
+
+    .lg\:flex-row {
+        flex-direction: row !important;
+    }
+
+    .lg\:w-64 {
+        width: 16rem !important;
+    }
+
+    .lg\:w-96 {
+        width: 24rem !important;
+    }
+
+    .lg\:gap-4 {
+        gap: 1rem !important;
+    }
+
+    .lg\:p-4 {
+        padding: 1rem !important;
+    }
 }
 
 /* Extended Polyfill - Small Sizes */

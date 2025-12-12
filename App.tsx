@@ -314,10 +314,10 @@ const App: React.FC = () => {
             {!playerColor ? (
                 <GameStartModal onSelectSide={startGame} />
             ) : (
-                <div className="layout-force-row flex-1 w-full h-full p-2 sm:p-4 flex flex-row gap-2 lg:gap-4 relative z-10 overflow-hidden mx-auto">
+                <div className="flex-1 w-full h-full p-2 lg:p-4 flex flex-col lg:flex-row gap-2 lg:gap-4 relative z-10 overflow-hidden mx-auto">
 
-                    {/* LEFT COLUMN: Data Log (Desktop) */}
-                    <aside className="layout-col-fixed flex flex-col w-64 xl:w-80 gap-4 h-full overflow-hidden shrink-0">
+                    {/* LEFT COLUMN: Data Log (Desktop Only) */}
+                    <aside className="hidden lg:flex flex-col lg:w-64 xl:w-80 gap-4 h-full overflow-hidden shrink-0">
                         <div className="terminal-border flex-1 flex flex-col p-3 bg-black min-h-0">
                             <div className="border-b-2 border-theme mb-2 pb-2">
                                 <h2 className="text-2xl font-bold tracking-widest glow-text">DATA LOG</h2>
@@ -331,10 +331,11 @@ const App: React.FC = () => {
                     </aside>
 
                     {/* CENTER: Chessboard */}
-                    <main className="layout-col-fluid flex-1 flex flex-col min-h-0 min-w-[600px]">
-                        <header className="hidden w-full flex justify-between items-center mb-2 px-2 border-b-2 border-theme pb-2 bg-black shrink-0">
-                            <h1 className="text-2xl font-bold glow-text">ROBCO CHESS</h1>
-                            <div className="text-lg bg-theme-dim text-theme px-2 py-1 font-bold border border-theme">{status}</div>
+                    <main className="flex-1 flex flex-col min-h-0">
+                        {/* Mobile Header */}
+                        <header className="lg:hidden w-full flex justify-between items-center mb-2 px-2 border-b-2 border-theme pb-2 bg-black shrink-0">
+                            <h1 className="text-xl font-bold glow-text">ROBCO CHESS</h1>
+                            <div className="text-sm bg-theme-dim text-theme px-2 py-1 font-bold border border-theme">{status}</div>
                         </header>
 
                         <div className="flex-1 flex items-center justify-center min-h-0 min-w-0 p-1 overflow-hidden">
@@ -375,14 +376,20 @@ const App: React.FC = () => {
                             </div>
                         </div>
 
-                        {/* Mobile Status / Captured */}
-                        <div className="hidden w-full mt-2 terminal-border p-2 bg-black shrink-0">
+                        {/* Mobile Footer Controls */}
+                        <div className="lg:hidden w-full mt-2 terminal-border p-2 bg-black shrink-0 flex justify-between items-center gap-2">
                             <CapturedPieces game={game} playerColor={playerColor || 'w'} />
+                            <button
+                                onClick={() => setPlayerColor(null)}
+                                className="bg-transparent text-sm text-theme border border-theme px-2 py-1 font-bold uppercase shrink-0"
+                            >
+                                EXIT
+                            </button>
                         </div>
                     </main>
 
-                    {/* RIGHT COLUMN: AI Commentary */}
-                    <aside className="layout-col-fixed flex flex-col w-96 xl:w-[28rem] h-full gap-4 shrink-0 min-h-0">
+                    {/* RIGHT COLUMN: AI Commentary (Desktop Only) */}
+                    <aside className="hidden lg:flex flex-col lg:w-96 xl:w-[28rem] h-full gap-4 shrink-0 min-h-0">
                         <div className="terminal-border flex-1 flex flex-col p-4 bg-black relative overflow-hidden min-h-0">
                             <AICommentary
                                 commentaries={commentaries}
