@@ -231,6 +231,7 @@ const App: React.FC = () => {
                     // We pass the whole bestMove object to cover both cases.
                     const result = gameInstance.move(bestMove as any);
                     if (result) {
+                        console.log("Bot move applied:", result.san, result.promotion ? `(promotion to ${result.promotion})` : '');
                         setGame(gameInstance);
                         setGameVersion(v => v + 1);
 
@@ -382,7 +383,7 @@ const App: React.FC = () => {
 
                     {/* RIGHT COLUMN: AI Commentary */}
                     <aside className="layout-col-fixed flex flex-col w-96 xl:w-[28rem] h-full gap-4 shrink-0 min-h-0">
-                        <div className="terminal-border flex-1 flex flex-col p-4 bg-black relative overflow-hidden h-full min-h-0">
+                        <div className="terminal-border flex-1 flex flex-col p-4 bg-black relative overflow-hidden min-h-0">
                             <AICommentary
                                 commentaries={commentaries}
                                 isLoading={isCommentaryLoading}
@@ -405,7 +406,7 @@ const App: React.FC = () => {
                                         a.click();
                                         URL.revokeObjectURL(url);
                                     }}
-                                    className="text-xl text-theme hover:bg-theme-dim hover:shadow-theme hover:underline decoration-dashed uppercase font-bold transition-all px-2 py-1"
+                                    className="bg-transparent text-xl text-theme hover:bg-theme-dim hover:shadow-theme hover:underline decoration-dashed uppercase font-bold transition-all px-2 py-1"
                                 >
                                     [ DOWNLOAD PGN ]
                                 </button>
@@ -418,13 +419,13 @@ const App: React.FC = () => {
                                         }
                                     }}
                                     disabled={gameOver}
-                                    className={`text-xl ${gameOver ? 'text-theme/30 cursor-not-allowed' : 'text-theme hover:bg-theme-dim hover:shadow-theme'} hover:underline decoration-dashed uppercase font-bold transition-all px-2 py-1`}
+                                    className={`bg-transparent text-xl ${gameOver ? 'text-theme/30 cursor-not-allowed' : 'text-theme hover:bg-theme-dim hover:shadow-theme'} hover:underline decoration-dashed uppercase font-bold transition-all px-2 py-1`}
                                 >
                                     [ RESIGN ]
                                 </button>
                                 <button
                                     onClick={() => setPlayerColor(null)}
-                                    className="text-2xl text-theme hover:bg-theme-dim hover:shadow-theme hover:underline decoration-dashed uppercase font-bold transition-all px-2 py-1"
+                                    className="bg-transparent text-2xl text-theme hover:bg-theme-dim hover:shadow-theme hover:underline decoration-dashed uppercase font-bold transition-all px-2 py-1"
                                 >
                                     [ ABORT SIMULATION ]
                                 </button>

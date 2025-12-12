@@ -16,7 +16,7 @@ let currentRequestId: string | null = null;
 
 const createStockfishWorker = () => {
     // Stockfish.js is designed to BE the worker file
-    const worker = new Worker('/stockfish.js');
+    const worker = new Worker('stockfish.js');
 
     worker.onmessage = (e: MessageEvent) => {
         const line = typeof e.data === 'string' ? e.data : e.data?.toString() || '';

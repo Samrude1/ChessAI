@@ -118,7 +118,7 @@ const Chessboard: React.FC<ChessboardProps> = ({ game, onMove, orientation }) =>
                         <div
                             className="z-10 w-full h-full p-[2px] sm:p-1"
                         >
-                            {piece && PIECE_COMPONENTS[`${piece.color}${piece.type.toUpperCase()}`]}
+                            {piece && (PIECE_COMPONENTS[`${piece.color}${piece.type.toUpperCase()}`] || null)}
                         </div>
 
                         {/* Move Indicators */}
@@ -133,14 +133,22 @@ const Chessboard: React.FC<ChessboardProps> = ({ game, onMove, orientation }) =>
                     </div>
                 );
             }
-            rows.push(<div key={r} className="flex flex-1 w-full">{cols}</div>);
+            rows.push(cols);
         }
         return rows;
     }
 
     return (
-        <div className="flex flex-col w-full h-full border-4" style={{ borderColor: 'color-mix(in srgb, var(--terminal-blue) 30%, transparent)', boxShadow: '0 0 15px color-mix(in srgb, var(--terminal-blue) 20%, transparent)' }}>
-            {renderGrid()}
+        <div
+            className="w-full h-full border-4 grid"
+            style={{
+                borderColor: 'color-mix(in srgb, var(--terminal-blue) 30%, transparent)',
+                boxShadow: '0 0 15px color-mix(in srgb, var(--terminal-blue) 20%, transparent)',
+                gridTemplateColumns: 'repeat(8, minmax(0, 1fr))',
+                gridTemplateRows: 'repeat(8, minmax(0, 1fr))'
+            }}
+        >
+            {renderGrid().flat()}
         </div>
     );
 };
