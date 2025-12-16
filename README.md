@@ -9,7 +9,15 @@ A retro-futuristic chess game with AI-powered commentary, customizable themes, a
 ![React](https://img.shields.io/badge/React-18-80dfff?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-80dfff?style=for-the-badge)
 
+
 ![Yes Man Chess Terminal Gameplay](public/screenshot.png)
+
+## 🔗 Source Code & Full Version
+
+**Want to run the full AI-powered version?**
+This web demo runs in "Offline Mode" with simulated responses. To enable the real-time generative AI commentary powered by Google Gemini, download the source code and add your own API key!
+
+👉 **[Get the Source Code on GitHub](https://github.com/Samrude1/ChessAI)**
 
 ## 🎮 Features
 
