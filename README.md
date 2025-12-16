@@ -9,6 +9,8 @@ A retro-futuristic chess game with AI-powered commentary, customizable themes, a
 ![React](https://img.shields.io/badge/React-18-80dfff?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-80dfff?style=for-the-badge)
 
+![Yes Man Chess Terminal Gameplay](public/screenshot.png)
+
 ## 🎮 Features
 
 ### 🤖 Yes Man AI Opponent

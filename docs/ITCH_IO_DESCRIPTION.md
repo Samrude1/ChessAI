@@ -6,10 +6,10 @@ This web game features a custom interface inspired by the RobCo terminals from t
 
 ## 🎮 Features
 
-- **Opponent**: Play against a chess engine tailored to your skill level (Warning: He's excessively helpful!)
-- **Personality**: Yes Man reacts to the game state with different moods and facial expressions (from confident smirk to desperate panic!)
+- **Opponent**: Play against a chess engine tailored to your skill level.
+- **Personality**: Yes Man reacts to your moves with dynamic moods and facial expressions (from confident smirk to desperate panic!).
 - **Visuals**: Authentic retro terminal aesthetic with scanlines, curvature, and glow effects.
-- **Customization**: Change the terminal color to any hue using the Start Menu slider.
+- **Customization**: Change the terminal hue to any color via the Start Menu.
 
 ## 🤖 Credits & Attribution
 
@@ -17,9 +17,9 @@ This project is a fan creation and uses open-source technology:
 
 - **Chess Engine**: **[Stockfish 16.1](https://stockfishchess.org/)** (GPL-3.0)
   - This game uses the official WebAssembly build of the powerful Stockfish engine.
-  - *Note: Stockfish is developed by the Stockfish team, not by me. I am simply using it to power the moves!*
+  - *Note: Stockfish is developed by the Stockfish team, not by me.*
 - **Character**: Yes Man is a character from **Fallout: New Vegas**, developed by Obsidian Entertainment and published by Bethesda Softworks.
-- **AI Commentary**: Powered by Google Gemini (in full version). The web demo uses a simulated personality mode.
+- **AI Commentary**: Commentary in this offline demo is provided by a simulated personality library.
 
 ---
 
@@ -29,4 +29,3 @@ This is a free, non-commercial fan project created for educational and entertain
 **"Fallout"**, **"Fallout: New Vegas"**, **"Yes Man"**, and related characters are trademarks or registered trademarks of **Bethesda Softworks LLC**, a ZeniMax Media company.
 
 This project is not affiliated with, endorsed by, or connected to Bethesda Softworks or Obsidian Entertainment. No copyright infringement is intended.
-

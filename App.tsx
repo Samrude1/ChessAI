@@ -106,6 +106,7 @@ const App: React.FC = () => {
     };
 
     const startGame = (color: 'w' | 'b', skillLevel: number = 10) => {
+        soundEngine.init();
         soundEngine.playGameStart();
         const newGame = new Chess();
         setGame(newGame);
