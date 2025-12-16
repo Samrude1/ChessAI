@@ -4,10 +4,19 @@
 
 This web game features a custom interface inspired by the RobCo terminals from the Fallout universe, complete with CRT monitor effects, scanlines, and the overly optimistic personality of everyone's favorite Securitron.
 
+## 🔗 Source Code & Full Version
+
+**Want to run the full AI-powered version?**
+This web demo runs in "Offline Mode" with simulated responses. To enable the real-time generative AI commentary powered by Google Gemini, download the source code and add your own API key!
+
+👉 **[Get the Source Code on GitHub](https://github.com/Samrude1/ChessAI)**
+
 ## 🎮 Features
 
+- **🧠 AI Powered**: Full version uses **Google Gemini** for infinite, context-aware commentary.
+- **⚡ Stockfish Powered**: Uses the world-class **Stockfish 16.1** engine for gameplay.
 - **Opponent**: Play against a chess engine tailored to your skill level.
-- **Personality**: Yes Man reacts to your moves with dynamic moods and facial expressions (from confident smirk to desperate panic!).
+- **Personality**: Yes Man reacts to your moves with dynamic moods and facial expressions.
 - **Visuals**: Authentic retro terminal aesthetic with scanlines, curvature, and glow effects.
 - **Customization**: Change the terminal hue to any color via the Start Menu.
 
@@ -16,10 +25,8 @@ This web game features a custom interface inspired by the RobCo terminals from t
 This project is a fan creation and uses open-source technology:
 
 - **Chess Engine**: **[Stockfish 16.1](https://stockfishchess.org/)** (GPL-3.0)
-  - This game uses the official WebAssembly build of the powerful Stockfish engine.
-  - *Note: Stockfish is developed by the Stockfish team, not by me.*
-- **Character**: Yes Man is a character from **Fallout: New Vegas**, developed by Obsidian Entertainment and published by Bethesda Softworks.
-- **AI Commentary**: Commentary in this offline demo is provided by a simulated personality library.
+- **AI Model**: **Google Gemini** (for the LLM features)
+- **Character**: Yes Man from **Fallout: New Vegas** (Bethesda/Obsidian)
 
 ---
 
