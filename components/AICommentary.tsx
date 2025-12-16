@@ -115,7 +115,7 @@ const AICommentary: React.FC<AICommentaryProps> = ({ commentaries, isLoading, is
                 className="flex-1 overflow-y-auto pr-2 custom-scrollbar space-y-6 p-4"
                 style={{ scrollBehavior: 'smooth' }}
             >
-                {commentaries.length === 0 && !isLoading && (
+                {commentaries.length === 0 && !isLoading && !isBotThinking && (
                     <div className="text-theme mt-2 text-center opacity-90 animate-pulse text-xl lg:text-2xl">
                         <p>&gt; WAITING FOR INPUT...</p>
                         <p className="mt-2 text-lg lg:text-xl opacity-70">"I'm just so happy to be here!"</p>
