@@ -10,7 +10,7 @@ A retro-futuristic chess game with AI-powered commentary, customizable themes, a
 ![License](https://img.shields.io/badge/License-MIT-80dfff?style=for-the-badge)
 
 
-![Yes Man Chess Terminal Gameplay](public/screenshot.png)
+![Yes Man Chess Terminal Gameplay](public/Näyttökuva%202026-02-08.png)
 
 ## 🔗 Source Code & Full Version
 
