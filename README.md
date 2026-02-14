@@ -136,12 +136,17 @@ Yes Man only comments on tactically significant moves:
 
 ## 🌐 Live Demo
 
-**Want to try it without setup?**  
-This project is designed to work as a web demo in offline mode!
+**Play now in your browser!**  
+Try the game immediately without any installation:
 
-👉 **[View Source Code on GitHub](https://github.com/Samrude1/ChessAI)**
+### 🎮 [**Play on itch.io**](https://sr3design.itch.io/chess-terminal)
 
-> **Note**: The web demo runs in "Offline Mode" with simulated responses. To enable real-time generative AI commentary powered by Google Gemini, download the source code and add your own API key!
+The itch.io version runs in **Offline Mode** with curated Yes Man responses—no API key needed, just pure retro chess fun!
+
+**Want the full AI-powered experience?**  
+👉 **[Get the Source Code on GitHub](https://github.com/Samrude1/ChessAI)** and add your own Gemini API key for real-time generative commentary.
+
+> **Note**: The web demo uses hard-coded responses for instant playability. Download the source code to enable dynamic AI commentary powered by Google Gemini.
 
 ---
 
