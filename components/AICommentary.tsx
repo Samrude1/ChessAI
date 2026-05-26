@@ -126,7 +126,7 @@ const AICommentary: React.FC<AICommentaryProps> = ({ commentaries, isLoading, is
                     <div key={index} className="animate-fade-in pl-2 mb-4 bg-theme-dim/5 py-2">
                         <div className="flex items-center justify-between text-base text-theme opacity-70 uppercase mb-2 tracking-widest font-bold pb-1">
                             <span>LOG_{c.moveNumber.toString().padStart(3, '0')}</span>
-                            <span>{c.player === 'Human' ? 'USER' : 'AI'}</span>
+                            <span>{c.move}</span>
                         </div>
                         <div className="text-theme text-xl lg:text-2xl drop-shadow-md leading-snug">
                             <span className="mr-2 font-bold text-theme opacity-50">&gt;</span>

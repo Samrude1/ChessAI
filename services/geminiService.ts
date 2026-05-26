@@ -1,17 +1,5 @@
 
-import { GoogleGenAI } from "@google/genai";
 import type { Mood } from '../types';
-
-// Initialize AI only if API key is present
-const apiKey = process.env.API_KEY;
-let ai: GoogleGenAI | null = null;
-
-if (apiKey) {
-    ai = new GoogleGenAI({ apiKey });
-} else {
-    console.log("No API Key found. Running in OFFLINE MODE with canned responses.");
-}
-
 export interface CommentaryContext {
     pgn: string;
     lastMove: string;
@@ -143,16 +131,7 @@ const getOfflineCommentaryWithProbability = async (context: CommentaryContext): 
 };
 
 export async function getAiCommentary(context: CommentaryContext): Promise<string> {
-    // --- OFFLINE MODE CHECK ---
-    if (!ai) {
-        // Simulate network delay for realism
-        const delay = 500 + Math.random() * 1000;
-        await new Promise(resolve => setTimeout(resolve, delay));
-
-        return getOfflineCommentaryWithProbability(context);
-    }
-
-    // --- ONLINE MODE (GEMINI AI) ---
+    // --- ONLINE MODE (VIA SECURE BACKEND) ---
     const {
         lastMove,
         reason,
@@ -274,22 +253,22 @@ RESPONSE GUIDELINES:
 Respond as Yes Man:`;
 
     try {
-        const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
-            contents: prompt,
+        const response = await fetch('/api/gemini', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt })
         });
 
-        const text = response.text;
-        if (text) {
-            // Remove any emojis just in case
-            return text.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}]/gu, '').trim();
-        } else {
-            return "This is going great! I'm just so happy to be here watching you play! *happy beep*";
+        if (!response.ok) {
+            throw new Error('Backend API request failed');
         }
 
+        const data = await response.json();
+        return data.text;
+
     } catch (error: any) {
-        console.error("Error generating commentary:", error);
-        // Fallback to offline library if API fails unexpectedly
+        console.error("Error generating commentary (backend fetch):", error);
+        // Fallback to offline library if API fails unexpectedly (e.g. no key or offline)
         return getOfflineCommentaryWithProbability(context);
     }
 }
