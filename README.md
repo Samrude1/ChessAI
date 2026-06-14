@@ -51,6 +51,7 @@ Yes Man is not just a chess engine—he's a character with personality:
    - Real-time generative commentary powered by Google Gemini 2.0 Flash
    - Contextual responses based on game state, move history, and tactical significance
    - Unique commentary for every game situation
+   - Secure backend architecture prevents prompt injection and protects your API quota
 
 2. **Offline/Demo Mode** (No API Key Required)
    - Fully playable without internet or API key
@@ -252,6 +253,8 @@ The build output will be in the `dist/` directory, ready for deployment to any s
 
 ```
 gemini-chess-commentary/
+├── api/                    # Serverless backend functions
+│   └── gemini.ts           # Secure Gemini API endpoint with prompt generation
 ├── components/              # React components
 │   ├── AICommentary.tsx    # Yes Man monitor and commentary display
 │   ├── Chessboard.tsx      # Interactive chess board with move validation
@@ -263,7 +266,7 @@ gemini-chess-commentary/
 │   └── icons/              # SVG icon components
 ├── services/               # Core services
 │   ├── chessEngine.ts      # Stockfish integration and move calculation
-│   ├── geminiService.ts    # AI commentary generation (online/offline)
+│   ├── geminiService.ts    # Frontend API client and offline response library
 │   └── soundService.ts     # Audio effects and ambient sounds
 ├── docs/                   # Documentation
 │   ├── USER_GUIDE.md       # Complete user guide
@@ -292,9 +295,12 @@ gemini-chess-commentary/
 - **YesManFace.tsx** - Renders pixelated face with mood-based expressions and animations
 - **GameStartModal.tsx** - Color selection, difficulty slider, and theme customization
 
+#### Backend API
+- **gemini.ts** - Secure serverless endpoint that handles prompt generation and Gemini API requests to prevent prompt injection.
+
 #### Services
 - **chessEngine.ts** - Stockfish worker management, UCI protocol, move calculation, skill level control
-- **geminiService.ts** - Gemini API integration, offline response library, commentary context building
+- **geminiService.ts** - Frontend API client, offline response library
 - **soundService.ts** - Web Audio API management, sound effects, ambient audio
 
 #### Configuration
