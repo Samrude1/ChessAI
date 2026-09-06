@@ -12,11 +12,9 @@ const Chessboard: React.FC<ChessboardProps> = ({ game, onMove, orientation }) =>
     const [fromSquare, setFromSquare] = useState<Square | null>(null);
     const [possibleMoves, setPossibleMoves] = useState<Square[]>([]);
 
-    const board = useMemo(() => game.board(), [game.fen()]);
-
     const handleSquareClick = (square: Square) => {
         if (game.turn() !== orientation) {
-            // Not player's turn
+            return; // Disallow interaction during opponent's turn
         }
 
         if (fromSquare) {

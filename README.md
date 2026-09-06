@@ -259,8 +259,7 @@ gemini-chess-commentary/
 │   ├── AICommentary.tsx    # Yes Man monitor and commentary display
 │   ├── Chessboard.tsx      # Interactive chess board with move validation
 │   ├── YesManFace.tsx      # Pixelated animated character face
-│   ├── GameStartModal.tsx  # Game setup and difficulty selection
-│   ├── SettingsModal.tsx   # Theme customization
+│   ├── GameStartModal.tsx  # Game setup, difficulty & theme selection
 │   ├── MoveHistory.tsx     # Game notation display
 │   ├── CapturedPieces.tsx  # Material tracker
 │   └── icons/              # SVG icon components

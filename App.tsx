@@ -6,8 +6,8 @@ import AICommentary from './components/AICommentary';
 import MoveHistory from './components/MoveHistory';
 import CapturedPieces from './components/CapturedPieces';
 import GameStartModal from './components/GameStartModal';
-import { findBestMove, setSkillLevel } from './services/chessEngine';
-import { getAiCommentary, CommentaryContext } from './services/geminiService';
+import { findBestMove, setSkillLevel, type EngineMove } from './services/chessEngine';
+import { getAiCommentary, type CommentaryContext } from './services/geminiService';
 import { soundEngine } from './services/soundService';
 import type { Commentary, Mood } from './types';
 
@@ -174,11 +174,10 @@ const App: React.FC = () => {
     }, [playerColor]);
 
 
-    const decideOnCommentary = (move: any): { shouldComment: boolean; reason: string } => {
+    const decideOnCommentary = (move: Move): { shouldComment: boolean; reason: string } => {
         // YesMan is a chess expert robot - only comments on tactically important moves
 
         // Determine who moved and who is the opponent
-        // move.color is the color of the piece that JUST moved
         const mover = move.color === playerColor ? 'User' : 'Yes Man';
         const opponent = mover === 'User' ? 'Yes Man' : 'User';
 
@@ -200,7 +199,7 @@ const App: React.FC = () => {
         if (move.captured || move.flags.includes('c')) {
             // Get piece names for better context
             const pieceNames: Record<string, string> = { p: 'pawn', n: 'knight', b: 'bishop', r: 'rook', q: 'queen', k: 'king' };
-            const capturedPiece = pieceNames[move.captured] || 'piece';
+            const capturedPiece = move.captured ? (pieceNames[move.captured] || 'piece') : 'piece';
             return { shouldComment: true, reason: `${mover} captured ${opponent}'s ${capturedPiece}.` };
         }
 
@@ -227,10 +226,7 @@ const App: React.FC = () => {
             if (bestMove) {
                 if (!gameRef.current.isGameOver() && gameRef.current.turn() !== playerColor) {
                     const gameInstance = gameRef.current;
-                    // Stockfish returns { from, to }, custom engine returned { san }.
-                    // game.move() supports both objects and SAN strings.
-                    // We pass the whole bestMove object to cover both cases.
-                    const result = gameInstance.move(bestMove as any);
+                    const result = gameInstance.move(bestMove);
                     if (result) {
                         console.log("Bot move applied:", result.san, result.promotion ? `(promotion to ${result.promotion})` : '');
                         setGame(gameInstance);
@@ -243,13 +239,10 @@ const App: React.FC = () => {
                         const decision = decideOnCommentary(result);
                         if (decision.shouldComment) {
                             fetchCommentary(gameInstance.pgn(), result.san, decision.reason, result.captured);
-                            // Don't set isBotThinking to false - let commentary loading handle it
                         } else {
-                            // Only set false if no commentary is being generated
                             setIsBotThinking(false);
                         }
                     } else {
-                        // Move failed to apply
                         setIsBotThinking(false);
                     }
                 } else {
@@ -258,14 +251,15 @@ const App: React.FC = () => {
             } else {
                 setIsBotThinking(false);
             }
-        } catch (error) {
-            console.error("Bot Move Error:", error);
+        } catch (error: unknown) {
+            const errorMsg = error instanceof Error ? error.message : String(error);
+            console.error("Bot Move Error:", errorMsg);
             setIsBotThinking(false);
             setStatus("ERROR: AI NEURAL LINK SEVERED. REBOOT REQUIRED.");
         }
     }, [updateStatus, fetchCommentary, playerColor, isBotThinking, isCommentaryLoading]);
 
-    const handlePlayerMove = (move: any): boolean => {
+    const handlePlayerMove = (move: { from: string; to: string; promotion?: string }): boolean => {
         if (gameOver || !playerColor) return false;
         if (game.turn() !== playerColor) return false;
 

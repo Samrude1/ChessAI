@@ -147,8 +147,9 @@ export async function getAiCommentary(context: CommentaryContext): Promise<strin
         const data = await response.json();
         return data.text;
 
-    } catch (error: any) {
-        console.error("Error generating commentary (backend fetch):", error);
+    } catch (error: unknown) {
+        const errorMsg = error instanceof Error ? error.message : String(error);
+        console.error("Error generating commentary (backend fetch):", errorMsg);
         // Fallback to offline library if API fails unexpectedly (e.g. no key or offline)
         return getOfflineCommentaryWithProbability(context);
     }
