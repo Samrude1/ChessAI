@@ -33,4 +33,8 @@ dist-ssr
 .agent
 *.zip
 
+# Private notes & temporary files
+notes/
+temp/
+
 
