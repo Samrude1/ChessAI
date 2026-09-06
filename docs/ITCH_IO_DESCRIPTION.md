@@ -14,7 +14,7 @@ This web demo runs in "Offline Mode" with simulated responses. To enable the rea
 ## 🎮 Features
 
 - **🧠 AI Powered**: Full version uses **Google Gemini** for infinite, context-aware commentary.
-- **⚡ Stockfish Powered**: Uses the world-class **Stockfish 16.1** engine for gameplay.
+- **⚡ Stockfish Powered**: Uses the world-class **Stockfish 17.1** engine for gameplay.
 - **Opponent**: Play against a chess engine tailored to your skill level.
 - **Personality**: Yes Man reacts to your moves with dynamic moods and facial expressions.
 - **Visuals**: Authentic retro terminal aesthetic with scanlines, curvature, and glow effects.
@@ -24,7 +24,7 @@ This web demo runs in "Offline Mode" with simulated responses. To enable the rea
 
 This project is a fan creation and uses open-source technology:
 
-- **Chess Engine**: **[Stockfish 16.1](https://stockfishchess.org/)** (GPL-3.0)
+- **Chess Engine**: **[Stockfish 17.1](https://stockfishchess.org/)** (GPL-3.0)
 - **AI Model**: **Google Gemini** (for the LLM features)
 - **Character**: Yes Man from **Fallout: New Vegas** (Bethesda/Obsidian)
 

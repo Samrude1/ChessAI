@@ -131,6 +131,11 @@ const GameStartModal: React.FC<GameStartModalProps> = ({ onSelectSide }) => {
                             [ PLAY BLACK ]
                         </button>
                     </div>
+
+                    {/* Legal / Fan Project Notice */}
+                    <div className="mt-8 pt-4 border-t border-theme/20 text-theme/40 text-xs font-mono tracking-wider uppercase text-center leading-relaxed">
+                        NON-COMMERCIAL FAN TRIBUTE • NOT AFFILIATED WITH OR ENDORSED BY BETHESDA SOFTWORKS LLC • ENGINE: STOCKFISH (GPLv3)
+                    </div>
                 </div>
             </div>
         </div>

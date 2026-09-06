@@ -5,7 +5,7 @@
 ![Yes Man Chess Terminal](public/Näyttökuva%202026-02-08.png)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-80dfff?style=for-the-badge)](LICENSE)
-[![Stockfish 16.1](https://img.shields.io/badge/Engine-Stockfish%2016.1-80dfff?style=for-the-badge)](https://stockfishchess.org/)
+[![Stockfish 17.1](https://img.shields.io/badge/Engine-Stockfish%2017.1-80dfff?style=for-the-badge)](https://stockfishchess.org/)
 [![React 19](https://img.shields.io/badge/React-19-80dfff?style=for-the-badge)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-80dfff?style=for-the-badge)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-6.2-80dfff?style=for-the-badge)](https://vitejs.dev/)
@@ -27,7 +27,7 @@ The game runs in both **Online Mode** (with Google Gemini API for real-time gene
 ### Key Highlights
 
 - 🤖 **Personality-Driven AI** - Yes Man reacts with genuine emotion and context awareness
-- ♟️ **Professional Chess Engine** - Powered by Stockfish 16.1 with adjustable difficulty (0-20)
+- ♟️ **Professional Chess Engine** - Powered by Stockfish 17.1 with adjustable difficulty (0-20)
 - 🎨 **Retro CRT Aesthetics** - Authentic terminal effects with customizable monochrome themes
 - 🎯 **Dual Mode Operation** - Works online (Gemini API) or offline (canned responses)
 - 🎭 **Dynamic Mood System** - 6 distinct moods with visual and commentary changes
@@ -75,7 +75,7 @@ Yes Man's personality changes based on game state with 6 distinct moods:
 ### ♟️ Chess Features
 
 #### Professional Chess Engine
-- **Stockfish 16.1 WASM** - One of the world's strongest chess engines
+- **Stockfish 17.1 WASM** - One of the world's strongest chess engines
 - **Adjustable Difficulty** - Skill levels 0-20 (Beginner to Master)
 - **Smart Move Selection** - 1-second move time for responsive gameplay
 - **UCI Protocol** - Standard chess engine communication
@@ -450,12 +450,13 @@ See [Future Enhancements](#-future-enhancements) for upcoming features.
 ### Chess Engine
 This project uses **[Stockfish](https://stockfishchess.org/)** - one of the strongest open-source chess engines in the world.
 
-- **License**: GNU General Public License v3.0 (GPL-3.0)
-- **Version**: 16.1 (WebAssembly build)
-- **Repository**: https://github.com/official-stockfish/Stockfish
-- **Full Attribution**: See [docs/STOCKFISH_ATTRIBUTION.md](docs/STOCKFISH_ATTRIBUTION.md)
+- **License**: GNU General Public License v3.0 (GPL-3.0) - see [LICENSE-GPL.txt](LICENSE-GPL.txt)
+- **Version**: 17.1 (Single-threaded WebAssembly build via Stockfish.js)
+- **Engine Source (JS/WASM)**: https://github.com/nmrugg/stockfish.js
+- **Upstream C++ Repository**: https://github.com/official-stockfish/Stockfish
+- **Full Attribution & GPL Compliance**: See [docs/STOCKFISH_ATTRIBUTION.md](docs/STOCKFISH_ATTRIBUTION.md)
 
-> **Important**: Stockfish is NOT owned by this project. It is developed and maintained by the Stockfish team. This project uses the official pre-compiled WebAssembly build without modifications.
+> **Important**: Stockfish is developed and maintained by the Stockfish team and contributors. This project uses the official pre-compiled WebAssembly build without modifications.
 
 ### AI Technology
 - **[Google Gemini API](https://ai.google.dev/)** - Generative AI for natural language commentary
@@ -468,22 +469,33 @@ This project uses **[Stockfish](https://stockfishchess.org/)** - one of the stro
 - **[TypeScript](https://www.typescriptlang.org/)** - Type system (Apache-2.0)
 
 ### Inspiration
-- **Yes Man Character** - Fallout: New Vegas (Bethesda Softworks/Obsidian Entertainment)
-- **Retro Terminal Aesthetic** - Classic CRT monitors and vintage computing (Fallout series, Robco Industries)
+- **Yes Man Character** - Fallout: New Vegas (Bethesda Softworks / Obsidian Entertainment)
+- **Retro Terminal Aesthetic** - Classic CRT monitors and vintage computing (Fallout series, RobCo Industries)
+
+---
+
+## ⚠️ Legal Disclaimers & Fan Policy
+
+### Non-Commercial Fan Tribute
+This application is a free, non-commercial fan tribute developed purely for educational, entertainment, and portfolio demonstration purposes.
+
+- **Bethesda Softworks & Obsidian Entertainment**: "Fallout", "Fallout: New Vegas", "Yes Man", "RobCo Industries", and all associated logos, character designs, names, and trademarks are property of **Bethesda Softworks LLC**, a ZeniMax Media company, and/or **Obsidian Entertainment**.
+- **Non-Affiliation**: This project is **not** affiliated with, authorized, sponsored, or endorsed by Bethesda Softworks, ZeniMax Media, Obsidian Entertainment, or Microsoft Corporation.
+- **Strictly Non-Commercial**: This project is completely free of charge. It contains no monetization, advertisements, paid features, or donation solicitations.
+
+### Google LLC
+- "Gemini" and related marks are trademarks of **Google LLC**. This application is an independent open-source project and is not affiliated with or endorsed by Google LLC.
 
 ---
 
 ## 📝 License
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+This project utilizes a multi-license structure to strictly adhere to open-source licenses:
 
-### Important Licensing Notes
-
-- **This Project (MIT)**: The custom code, UI, and commentary system are MIT licensed
-- **Stockfish (GPL-3.0)**: The chess engine is GPL-3.0 licensed (see [STOCKFISH_ATTRIBUTION.md](docs/STOCKFISH_ATTRIBUTION.md))
-- **Dependencies**: Each dependency has its own license (see `package.json`)
-
-**GPL Compliance**: This project uses Stockfish as a separate WebAssembly worker without modification. The GPL license applies to Stockfish only, not to this project's custom code.
+- **Original Application Code (MIT License)**: All custom React components, styling, audio integration, and UI logic are licensed under the [MIT License](LICENSE) by Samrude1.
+- **Stockfish Engine (GPL-3.0 License)**: The chess engine files (`public/stockfish.js`, `public/stockfish.wasm`) are licensed under the [GNU General Public License v3.0](LICENSE-GPL.txt).
+- **GPL Architectural Compliance**: Stockfish operates strictly within an isolated Web Worker via standard UCI text protocol (`postMessage`). In accordance with FSF guidelines, this process-level separation allows the host application to maintain its MIT license while preserving the full copyleft protections of the Stockfish engine.
+- **Dependencies**: All third-party npm packages are governed by their respective licenses (see `package.json`).
 
 ---
 

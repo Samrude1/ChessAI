@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2024 [Your Name]
+Copyright (c) 2024-2026 Samrude1
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,24 +24,36 @@ SOFTWARE.
 
 ## Third-Party Licenses
 
-### Stockfish Chess Engine
+### Stockfish Chess Engine (GPL-3.0)
 
-This project uses Stockfish, which is licensed under the GNU General Public License v3.0 (GPL-3.0).
+This project bundles and uses the Stockfish chess engine via WebAssembly:
+- **Engine Files**: `public/stockfish.js`, `public/stockfish.wasm`
+- **Stockfish Version**: 17.1 (Stockfish.js port by Chess.com, LLC / nmrugg)
+- **Engine Source (JS/WASM build)**: https://github.com/nmrugg/stockfish.js
+- **Upstream Engine Project**: https://github.com/official-stockfish/Stockfish
+- **Official Website**: https://stockfishchess.org/
+- **License**: GNU General Public License v3.0 (GPL-3.0)
+- **Full License Text**: Included in this repository at [LICENSE-GPL.txt](LICENSE-GPL.txt)
 
-- **Project**: Stockfish
-- **Website**: https://stockfishchess.org/
-- **Repository**: https://github.com/official-stockfish/Stockfish
-- **License**: GPL-3.0
-- **License Text**: https://github.com/official-stockfish/Stockfish/blob/master/Copying.txt
+**GPL Compliance & Architecture Notice**:
+Stockfish runs as an isolated background Web Worker (`public/stockfish.js`) communicating exclusively through the standard Universal Chess Interface (UCI) protocol over asynchronous string messages (`postMessage`). In accordance with Free Software Foundation (FSF) guidelines regarding aggregate works and process isolation:
+- The GPL-3.0 license applies to the Stockfish engine files and any modifications thereto.
+- The MIT License applies to this project's original UI, audio, and application wrapper code.
+- Detailed attribution and source code instructions are available in [docs/STOCKFISH_ATTRIBUTION.md](docs/STOCKFISH_ATTRIBUTION.md).
 
-**Important Notes**:
-- This project uses the official pre-compiled WebAssembly build of Stockfish
-- No modifications have been made to the Stockfish engine itself
-- Stockfish is distributed as a separate binary/WASM file
-- The GPL-3.0 license applies to Stockfish, not to this project's original code
+### Other Open-Source Dependencies
+All other third-party dependencies (React, chess.js, Vite, Tailwind CSS, etc.) are used under their respective permissive open-source licenses. Refer to `package.json` for details.
 
-For complete Stockfish attribution and licensing information, see [docs/STOCKFISH_ATTRIBUTION.md](docs/STOCKFISH_ATTRIBUTION.md).
+---
 
-### Other Dependencies
+## Non-Commercial Fan Project & Trademark Disclaimers
 
-All other dependencies (React, chess.js, Tailwind CSS, etc.) are used under their respective licenses. See `package.json` for the complete list of dependencies and their licenses.
+### Fallout / Bethesda Softworks & Obsidian Entertainment
+This software is an unofficial, non-commercial fan tribute created solely for entertainment, educational, and portfolio purposes.
+- **Trademarks & Copyrights**: "Fallout", "Fallout: New Vegas", "Yes Man", "RobCo Industries", and related names, logos, characters, and aesthetics are trademarks or registered trademarks of **Bethesda Softworks LLC**, a ZeniMax Media company, and/or **Obsidian Entertainment**.
+- **Non-Affiliation**: This project is **NOT** official, is **NOT** authorized, sponsored, endorsed, or affiliated with Bethesda Softworks LLC, ZeniMax Media Inc., Obsidian Entertainment, or Microsoft Corporation.
+- **Non-Commercial**: This project is distributed 100% free of charge. No commercial exploitation, sale, monetization, paywalling, or donation solicitation is associated with this software.
+
+### Google Gemini
+- "Gemini" and related logos are trademarks of **Google LLC**.
+- This application allows optional client-side connection to the Google Gemini API for commentary generation. This project is not affiliated with or endorsed by Google LLC.
